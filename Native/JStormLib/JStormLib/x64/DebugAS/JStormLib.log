@@ -1,0 +1,27 @@
+﻿Build started 04.10.2012 04:57:06.
+     1>Project "F:\VS2010\Projects\JStormLib\JStormLib\JStormLib.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "x64\DebugAS\JStormLib.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         f:\VS2010\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _WINDLL /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\DebugAS\\" /Fd"x64\DebugAS\vc100.pdb" /Gd /TP /errorReport:prompt MPQArchive.cpp MPQFile.cpp
+         MPQFile.cpp
+         MPQArchive.cpp
+         Generating Code...
+     1>f:\vs2010\projects\jstormlib\jstormlib\mpqfile.cpp(48): warning C4700: uninitialized local variable 'result' used
+       Link:
+         f:\VS2010\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.dll" /NOLOGO /MANIFEST /ManifestFile:"x64\DebugAS\JStormLib.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.lib" /MACHINE:X64 /DLL x64\DebugAS\Common.obj
+         x64\DebugAS\MPQArchive.obj
+         x64\DebugAS\MPQFile.obj
+         LINK : F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.dll not found or not built by the last incremental link; performing full link
+            Creating library F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.lib and object F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.exp
+         JStormLib.vcxproj -> F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\VS2010\Projects\JStormLib\bin\x64\DebugAS\JStormLib.dll;#2" /manifest x64\DebugAS\JStormLib.dll.intermediate.manifest f:\VS2010\VC\Include\Manifest\dpiaware.manifest
+       FinalizeBuildStatus:
+         Deleting file "x64\DebugAS\JStormLib.unsuccessfulbuild".
+         Touching "x64\DebugAS\JStormLib.lastbuildstate".
+     1>Done Building Project "F:\VS2010\Projects\JStormLib\JStormLib\JStormLib.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.27
