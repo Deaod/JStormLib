@@ -1,4 +1,4 @@
 JStormLib
 =========
 
-StormLib for Java usiing JNI
+StormLib for Java using JNI
