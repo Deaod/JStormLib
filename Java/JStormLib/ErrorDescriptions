@@ -1,0 +1,37 @@
+ERROR_SUCCESS                  The operation completed successfully.
+ERROR_FILE_NOT_FOUND           The system cannot find the file specified.
+ERROR_ACCESS_DENIED            Access is denied.
+ERROR_INVALID_HANDLE           The handle is invalid.
+ERROR_NOT_ENOUGH_MEMORY        Not enough storage is available to process this command.
+ERROR_BAD_FORMAT               An attempt was made to load a program with an incorrect format.
+ERROR_NO_MORE_FILES            There are no more files.
+ERROR_HANDLE_EOF               Reached the end of the file.
+ERROR_NOT_SUPPORTED            The request is not supported.
+ERROR_INVALID_PARAMETER        The parameter is incorrect.
+ERROR_DISK_FULL                There is not enough space on the disk.
+ERROR_ALREADY_EXISTS           Cannot create a file when that file already exists.
+ERROR_CAN_NOT_COMPLETE         Cannot complete this function.
+ERROR_FILE_CORRUPT             The file or directory is corrupted and unreadable.
+ERROR_INSUFFICIENT_BUFFER      The data area passed to a system call is too small.
+
+ERROR_SUCCESS                   noErr
+ERROR_FILE_NOT_FOUND            MPQFileNotFoundException 
+ERROR_ACCESS_DENIED             MPQPermissionException // trying to modify an archive that is opened in read-only mode // trying to patch an archive opened with write access
+ERROR_INVALID_HANDLE            NullPointerException
+ERROR_NOT_ENOUGH_MEMORY         OutOfMemoryError
+ERROR_BAD_FORMAT                MPQFormatException // Returned when the opened file is in format that is not recognized by StormLib
+ERROR_NO_MORE_FILES             MPQNoMoreFilesException // no more files can be found while searching
+ERROR_HANDLE_EOF                MPQUnexpectedEOFException // thrown when reading a file fails
+ERROR_NOT_SUPPORTED             MPQUnsupportedException // unsupported compression // changing file locale in MPQs of version 3 or higher // invalid file flags
+ERROR_INVALID_PARAMETER         IllegalArgumentException
+ERROR_DISK_FULL                 OutOfMemoryError
+ERROR_ALREADY_EXISTS            MPQAlreadyExistsException // when trying to create an MPQ that already exists
+ERROR_CAN_NOT_COMPLETE          MPQUnknownException // A generic error, when any operation fails from an unknown reason
+ERROR_FILE_CORRUPT              MPQFormatException // At any point when there is bad data format in the file
+ERROR_INSUFFICIENT_BUFFER       OutOfMemoryError
+ERROR_AVI_FILE                  MPQIsAVIException // file is an AVI file with .MPQ extension
+ERROR_UNKNOWN_FILE_KEY          10001 // Returned by SFileReadFile when can't find file key
+ERROR_CHECKSUM_ERROR            10002 // Returned by SFileReadFile when sector CRC doesn't match
+ERROR_INTERNAL_FILE             10003 // The given operation is not allowed on internal file
+ERROR_BASE_FILE_MISSING         10004 // The file is present as incremental patch file, but base file is missing
+ERROR_MARKED_FOR_DELETE         10005 // The file was marked as "deleted" in the MPQ

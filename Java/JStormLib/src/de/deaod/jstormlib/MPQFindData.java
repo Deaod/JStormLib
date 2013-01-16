@@ -41,7 +41,7 @@ public class MPQFindData {
     }
     
     public long getFileTime() {
-        return ((long) this.fileTimeHi << 32L) + this.fileTimeLo;
+        return (((long) this.fileTimeHi << 32L) & 0xFFFFFFFF00000000L) | this.fileTimeLo;
     }
     
     public int getLocale() {
