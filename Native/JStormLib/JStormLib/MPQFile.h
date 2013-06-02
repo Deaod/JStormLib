@@ -9,6 +9,30 @@ extern "C" {
 #endif
 /*
  * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getFileName
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_de_deaod_jstormlib_MPQFile_getFileName
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    renameFile
+ * Signature: (JLjava/lang/String;Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQFile_renameFile
+  (JNIEnv *, jclass, jlong, jstring, jstring);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    removeFile
+ * Signature: (JLjava/lang/String;I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_removeFile
+  (JNIEnv *, jclass, jlong, jstring, jint);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
  * Method:    getFileSize
  * Signature: (J)J
  */
@@ -26,18 +50,18 @@ JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQFile_setFilePointer
 /*
  * Class:     de_deaod_jstormlib_MPQFile
  * Method:    readFile
- * Signature: (J[BILjava/lang/Integer;)Z
+ * Signature: (J[BII)I
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_readFile
-  (JNIEnv *, jclass, jlong, jbyteArray, jint, jobject);
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_readFile
+  (JNIEnv *, jclass, jlong, jbyteArray, jint, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQFile
  * Method:    writeFile
- * Signature: (J[BII)Z
+ * Signature: (J[BIII)Z
  */
 JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_writeFile
-  (JNIEnv *, jclass, jlong, jbyteArray, jint, jint);
+  (JNIEnv *, jclass, jlong, jbyteArray, jint, jint, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQFile
@@ -49,19 +73,11 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_closeFile
 
 /*
  * Class:     de_deaod_jstormlib_MPQFile
- * Method:    getFileName
- * Signature: (JLjava/lang/String;)Z
- */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_getFileName
-  (JNIEnv *, jclass, jlong, jstring);
-
-/*
- * Class:     de_deaod_jstormlib_MPQFile
  * Method:    getFileInfo
- * Signature: (JI[BILjava/lang/Integer;)Z
+ * Signature: (JI)[B
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_getFileInfo
-  (JNIEnv *, jclass, jlong, jint, jbyteArray, jint, jobject);
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQFile_getFileInfo
+  (JNIEnv *, jclass, jlong, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQFile
@@ -70,6 +86,22 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_getFileInfo
  */
 JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_setFileLocale
   (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    createFile
+ * Signature: (JLjava/lang/String;JIII)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQFile_createFile
+  (JNIEnv *, jclass, jlong, jstring, jlong, jint, jint, jint);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    openFile
+ * Signature: (JLjava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQFile_openFile
+  (JNIEnv *, jclass, jlong, jstring, jint);
 
 #ifdef __cplusplus
 }

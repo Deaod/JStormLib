@@ -28,10 +28,10 @@ public class MPQVerifyFileResults {
     
     private EnumSet<Result> results = EnumSet.noneOf(Result.class);
     
-    void setFlagsFromInt(int which) {
+    void fromInteger(int value) {
         this.results = EnumSet.noneOf(Result.class);
         for (Result r : Result.values()) {
-            if ((which & r.getValue()) != 0)
+            if ((value & r.getValue()) != 0)
                 this.results.add(r);
         }
     }

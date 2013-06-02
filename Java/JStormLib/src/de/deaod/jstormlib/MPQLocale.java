@@ -403,27 +403,22 @@ public enum MPQLocale {
         this.locale = locale;
     }
     
-    public static MPQLocale getLocaleFromInteger(int which) {
+    public static MPQLocale fromInteger(int value) {
         MPQLocale[] locales = MPQLocale.values();
-        int range = locales.length / 4;
-        int search = range * 2;
-        while (true) {
-            if (locales[search].getValue() < which) {
-                search = Math.min(search + range, locales.length - 1);
-            } else if (locales[search].getValue() > which) {
-                search = Math.max(search - range, 0);
+        int pos = 0;
+        int len = locales.length;
+        do {
+            int tmp = pos + len - 1;
+            if (locales[tmp].value == value) {
+                return locales[tmp];
+            }
+            if (locales[tmp].value < value) {
+                pos += len;
             } else {
-                return locales[search];
+                len /= 2;
             }
-            if (range == 1) {
-                if (locales[search].getValue() == which) {
-                    return locales[search];
-                } else {
-                    break;
-                }
-            }
-            range = (range + 1) / 2;
-        }
+        } while (len > 0);
+        
         return null;
     }
 }

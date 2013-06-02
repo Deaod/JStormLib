@@ -10,7 +10,7 @@ extern "C" {
 /*
  * Class:     de_deaod_jstormlib_MPQSearch
  * Method:    findNextFile
- * Signature: (JLde/deaod/jstormlib/MPQFindData;)Z
+ * Signature: (JLde/deaod/jstormlib/data/MPQFindData;)Z
  */
 JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_findNextFile
   (JNIEnv *, jclass, jlong, jobject);
@@ -26,7 +26,7 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_findClose
 /*
  * Class:     de_deaod_jstormlib_MPQSearch
  * Method:    listFindNextFile
- * Signature: (JLde/deaod/jstormlib/MPQFindData;)Z
+ * Signature: (JLde/deaod/jstormlib/data/MPQFindData;)Z
  */
 JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_listFindNextFile
   (JNIEnv *, jclass, jlong, jobject);
@@ -39,6 +39,17 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_listFindNextFile
 JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_listFindClose
   (JNIEnv *, jclass, jlong);
 
+#ifdef __cplusplus
+}
+#endif
+#endif
+/* Header for class de_deaod_jstormlib_MPQSearch_SearchType */
+
+#ifndef _Included_de_deaod_jstormlib_MPQSearch_SearchType
+#define _Included_de_deaod_jstormlib_MPQSearch_SearchType
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifdef __cplusplus
 }
 #endif

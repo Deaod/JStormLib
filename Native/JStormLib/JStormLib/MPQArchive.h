@@ -7,28 +7,34 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    openArchive
- * Signature: (Ljava/lang/String;IILjava/lang/Long;)Z
- */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_openArchive
-  (JNIEnv *, jclass, jstring, jint, jint, jobject);
-
+#undef de_deaod_jstormlib_MPQArchive_MAX_FILE_COUNT_MIN
+#define de_deaod_jstormlib_MPQArchive_MAX_FILE_COUNT_MIN 4L
+#undef de_deaod_jstormlib_MPQArchive_MAX_FILE_COUNT_MAX
+#define de_deaod_jstormlib_MPQArchive_MAX_FILE_COUNT_MAX 524288L
+#undef de_deaod_jstormlib_MPQArchive_DEFAULT_MAX_FILE_COUNT
+#define de_deaod_jstormlib_MPQArchive_DEFAULT_MAX_FILE_COUNT 4L
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    createArchive
- * Signature: (Ljava/lang/String;IILjava/lang/Long;)Z
+ * Signature: (Ljava/lang/String;II)J
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_createArchive
-  (JNIEnv *, jclass, jstring, jint, jint, jobject);
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_createArchive
+  (JNIEnv *, jclass, jstring, jint, jint);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    openArchive
+ * Signature: (Ljava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_openArchive
+  (JNIEnv *, jclass, jstring, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    addListFile
- * Signature: (JLjava/lang/String;)I
+ * Signature: (JLjava/lang/String;)V
  */
-JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_addListFile
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_addListFile
   (JNIEnv *, jclass, jlong, jstring);
 
 /*
@@ -41,50 +47,58 @@ JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_setLocale
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    getLocale
+ * Method:    getNativeLocale
  * Signature: ()I
  */
-JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getLocale
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getNativeLocale
   (JNIEnv *, jclass);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    flushArchive
- * Signature: (J)Z
+ * Signature: (J)V
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_flushArchive
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_flushArchive
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    closeArchive
- * Signature: (J)Z
+ * Signature: (J)V
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_closeArchive
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_closeArchive
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    setMaxFileCount
- * Signature: (JI)Z
+ * Signature: (JI)V
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_setMaxFileCount
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_setMaxFileCount
   (JNIEnv *, jclass, jlong, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    compactArchive
- * Signature: (JLjava/lang/String;Z)Z
+ * Signature: (JLjava/lang/String;Z)V
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_compactArchive
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_compactArchive
   (JNIEnv *, jclass, jlong, jstring, jboolean);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    openPatchArchive
- * Signature: (JLjava/lang/String;Ljava/lang/String;I)Z
+ * Method:    setCompactCallback
+ * Signature: (JLde/deaod/jstormlib/MPQCompactCallback;)V
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_openPatchArchive
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_setCompactCallback
+  (JNIEnv *, jclass, jlong, jobject);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    openPatchArchive
+ * Signature: (JLjava/lang/String;Ljava/lang/String;I)V
+ */
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_openPatchArchive
   (JNIEnv *, jclass, jlong, jstring, jstring, jint);
 
 /*
@@ -105,19 +119,11 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_addFileEx
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    createFile
- * Signature: (JLjava/lang/String;JIIILjava/lang/Long;)Z
+ * Method:    setAddFileCallback
+ * Signature: (JLde/deaod/jstormlib/MPQAddFileCallback;)V
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_createFile
-  (JNIEnv *, jclass, jlong, jstring, jlong, jint, jint, jint, jobject);
-
-/*
- * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    openFile
- * Signature: (JLjava/lang/String;ILjava/lang/Long;)Z
- */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_openFile
-  (JNIEnv *, jclass, jlong, jstring, jint, jobject);
+JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_setAddFileCallback
+  (JNIEnv *, jclass, jlong, jobject);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
@@ -129,34 +135,18 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_hasFile
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    renameFile
- * Signature: (JLjava/lang/String;Ljava/lang/String;)Z
- */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_renameFile
-  (JNIEnv *, jclass, jlong, jstring, jstring);
-
-/*
- * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    removeFile
- * Signature: (JLjava/lang/String;I)Z
- */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_removeFile
-  (JNIEnv *, jclass, jlong, jstring, jint);
-
-/*
- * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    getArchiveInfo
- * Signature: (JI[BILjava/lang/Integer;)Z
+ * Signature: (JI)[B
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveInfo
-  (JNIEnv *, jclass, jlong, jint, jbyteArray, jint, jobject);
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveInfo
+  (JNIEnv *, jclass, jlong, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    verifyFile
- * Signature: (JLjava/lang/String;I)Z
+ * Signature: (JLjava/lang/String;I)I
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_verifyFile
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_verifyFile
   (JNIEnv *, jclass, jlong, jstring, jint);
 
 /*
@@ -178,7 +168,7 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_extractFile
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    findFirstFile
- * Signature: (JLjava/lang/String;Lde/deaod/jstormlib/MPQFindData;Ljava/lang/String;)J
+ * Signature: (JLjava/lang/String;Lde/deaod/jstormlib/data/MPQFindData;Ljava/lang/String;)J
  */
 JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_findFirstFile
   (JNIEnv *, jclass, jlong, jstring, jobject, jstring);
@@ -186,7 +176,7 @@ JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_findFirstFile
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    listFindFirstFile
- * Signature: (JLjava/lang/String;Ljava/lang/String;Lde/deaod/jstormlib/MPQFindData;)J
+ * Signature: (JLjava/lang/String;Ljava/lang/String;Lde/deaod/jstormlib/data/MPQFindData;)J
  */
 JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_listFindFirstFile
   (JNIEnv *, jclass, jlong, jstring, jstring, jobject);

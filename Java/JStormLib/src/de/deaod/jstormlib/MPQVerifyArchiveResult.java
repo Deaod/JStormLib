@@ -14,9 +14,9 @@ public enum MPQVerifyArchiveResult {
         this.value = value;
     }
     
-    static MPQVerifyArchiveResult getFromInt(int which) {
+    static MPQVerifyArchiveResult fromInteger(int value) {
         for (MPQVerifyArchiveResult result : MPQVerifyArchiveResult.values()) {
-            if (result.value == which)
+            if (result.value == value)
                 return result;
         }
         return null;

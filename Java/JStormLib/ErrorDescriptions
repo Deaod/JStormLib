@@ -28,10 +28,10 @@ ERROR_DISK_FULL                 OutOfMemoryError
 ERROR_ALREADY_EXISTS            MPQAlreadyExistsException // when trying to create an MPQ that already exists
 ERROR_CAN_NOT_COMPLETE          MPQUnknownException // A generic error, when any operation fails from an unknown reason
 ERROR_FILE_CORRUPT              MPQFormatException // At any point when there is bad data format in the file
-ERROR_INSUFFICIENT_BUFFER       OutOfMemoryError
+ERROR_INSUFFICIENT_BUFFER       MPQInsufficientBufferException // need to pass a bigger buffer
 ERROR_AVI_FILE                  MPQIsAVIException // file is an AVI file with .MPQ extension
-ERROR_UNKNOWN_FILE_KEY          10001 // Returned by SFileReadFile when can't find file key
-ERROR_CHECKSUM_ERROR            10002 // Returned by SFileReadFile when sector CRC doesn't match
-ERROR_INTERNAL_FILE             10003 // The given operation is not allowed on internal file
-ERROR_BASE_FILE_MISSING         10004 // The file is present as incremental patch file, but base file is missing
-ERROR_MARKED_FOR_DELETE         10005 // The file was marked as "deleted" in the MPQ
+ERROR_UNKNOWN_FILE_KEY          MPQUnknownFileKeyException // Returned by SFileReadFile when can't find file key
+ERROR_CHECKSUM_ERROR            MPQChecksumException // Returned by SFileReadFile when sector CRC doesn't match
+ERROR_INTERNAL_FILE             MPQInternalFileException // The given operation is not allowed on internal file
+ERROR_BASE_FILE_MISSING         MPQBaseFileMissingException // The file is present as incremental patch file, but base file is missing
+ERROR_MARKED_FOR_DELETE         MPQAlreadyDeletedException // The file was marked as "deleted" in the MPQ

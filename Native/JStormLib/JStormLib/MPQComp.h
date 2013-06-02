@@ -10,34 +10,34 @@ extern "C" {
 /*
  * Class:     de_deaod_jstormlib_MPQComp
  * Method:    implode
- * Signature: ([BLjava/lang/Integer;[BI)Z
+ * Signature: ([BII)[B
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQComp_implode
-  (JNIEnv *, jclass, jbyteArray, jobject, jbyteArray, jint);
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQComp_implode
+  (JNIEnv *, jclass, jbyteArray, jint, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQComp
  * Method:    explode
- * Signature: ([BLjava/lang/Integer;[BI)Z
+ * Signature: ([BII)[B
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQComp_explode
-  (JNIEnv *, jclass, jbyteArray, jobject, jbyteArray, jint);
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQComp_explode
+  (JNIEnv *, jclass, jbyteArray, jint, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQComp
  * Method:    compress
- * Signature: ([BLjava/lang/Integer;[BIIII)Z
+ * Signature: ([BIIII)[B
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQComp_compress
-  (JNIEnv *, jclass, jbyteArray, jobject, jbyteArray, jint, jint, jint, jint);
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQComp_compress
+  (JNIEnv *, jclass, jbyteArray, jint, jint, jint, jint);
 
 /*
  * Class:     de_deaod_jstormlib_MPQComp
  * Method:    decompress
- * Signature: ([BLjava/lang/Integer;[BI)Z
+ * Signature: ([BII)[B
  */
-JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQComp_decompress
-  (JNIEnv *, jclass, jbyteArray, jobject, jbyteArray, jint);
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQComp_decompress
+  (JNIEnv *, jclass, jbyteArray, jint, jint);
 
 #ifdef __cplusplus
 }
