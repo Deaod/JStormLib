@@ -29,7 +29,7 @@ public class MPQArchive {
     private static final int       MAX_FILE_COUNT_MIN     = 0x00000004;
     private static final int       MAX_FILE_COUNT_MAX     = 0x00080000;
     private static final int       DEFAULT_MAX_FILE_COUNT = MPQArchive.MAX_FILE_COUNT_MIN;
-    private static final ByteOrder DATA_BYTE_ORDER        = ByteOrder.BIG_ENDIAN;
+    private static final ByteOrder DATA_BYTE_ORDER        = ByteOrder.nativeOrder();
     
     private long                   mpqHandle              = 0L;
     private MPQAddFileCallback     addFileCallback        = null;
@@ -229,8 +229,10 @@ public class MPQArchive {
     
     public void addFile(String fileName, String archivedName, MPQFileFlags flags, MPQCompressionFlags compression,
             MPQCompressionFlags compressionNext) {
-        if (this.addFileCallback != null)
+        
+        if (this.addFileCallback != null) {
             MPQArchive.setAddFileCallback(this.mpqHandle, this.addFileCallback);
+        }
         
         MPQArchive.addFileEx(
                 this.mpqHandle,
@@ -277,9 +279,7 @@ public class MPQArchive {
     
     public String getArchiveName() {
         try {
-            byte[] data = MPQArchive.getArchiveInfo(
-                    this.mpqHandle,
-                    MPQArchiveInfoFlags.ARCHIVE_NAME.getValue());
+            byte[] data = MPQArchive.getArchiveInfo(this.mpqHandle, MPQArchiveInfoFlags.ARCHIVE_NAME.getValue());
             return new String(data, "US-ASCII");
         } catch (UnsupportedEncodingException e) {
             // ASCII isnt supported.

@@ -1,7 +1,5 @@
 package de.deaod.jstormlib.data;
 
-import lombok.Getter;
-import lombok.Setter;
 import de.deaod.jstormlib.MPQFileFlags;
 
 public class MPQBlock {
@@ -16,19 +14,41 @@ public class MPQBlock {
      */
     public static final MPQBlock DELETED = new MPQBlock();
     
-    @Getter
-    @Setter
     private int                  filePosition;
-    
-    @Getter
-    @Setter
     private int                  compressedSize;
-    
-    @Getter
-    @Setter
     private int                  fileSize;
+    private MPQFileFlags         flags;
     
-    @Getter
-    @Setter
-    private MPQFileFlags      flags;
+    public int getFilePosition() {
+        return this.filePosition;
+    }
+    
+    public void setFilePosition(int filePosition) {
+        this.filePosition = filePosition;
+    }
+    
+    public int getCompressedSize() {
+        return this.compressedSize;
+    }
+    
+    public void setCompressedSize(int compressedSize) {
+        this.compressedSize = compressedSize;
+    }
+    
+    public int getFileSize() {
+        return this.fileSize;
+    }
+    
+    public void setFileSize(int fileSize) {
+        this.fileSize = fileSize;
+    }
+    
+    public MPQFileFlags getFlags() {
+        return this.flags;
+    }
+    
+    public void setFlags(MPQFileFlags flags) {
+        this.flags = flags;
+    }
+    
 }

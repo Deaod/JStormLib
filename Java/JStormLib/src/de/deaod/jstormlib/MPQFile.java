@@ -87,8 +87,13 @@ public class MPQFile {
         if (buffer == null)
             throw new IllegalArgumentException("Null Buffer");
         if (offset + length > buffer.length)
-            throw new IllegalArgumentException("Offset + Length > Buffer Length (" + offset + " + " + length + " > "
-                    + buffer.length + ")");
+            throw new IllegalArgumentException("Offset + Length > Buffer Length ("
+                    + offset
+                    + " + "
+                    + length
+                    + " > "
+                    + buffer.length
+                    + ")");
         if (length <= 0)
             throw new IllegalArgumentException("Length less than or equal to zero");
         if (offset < 0)

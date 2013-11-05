@@ -1,34 +1,48 @@
 package de.deaod.jstormlib.data;
 
 import de.deaod.jstormlib.MPQLocale;
-import lombok.Getter;
 
 public class MPQFindData {
-    @Getter
     private String fileName;
-    
-    @Getter
     private String plainName;
-    
-    @Getter
     private int    hashIndex;
-    
-    @Getter
     private int    blockIndex;
-    
-    @Getter
     private int    fileSize;
-    
-    @Getter
     private int    fileFlags;
-    
-    @Getter
     private int    compSize;
     
     private int    fileTimeLo;
     private int    fileTimeHi;
     
     private int    locale;
+    
+    public String getFileName() {
+        return this.fileName;
+    }
+    
+    public String getPlainName() {
+        return this.plainName;
+    }
+    
+    public int getHashIndex() {
+        return this.hashIndex;
+    }
+    
+    public int getBlockIndex() {
+        return this.blockIndex;
+    }
+    
+    public int getFileSize() {
+        return this.fileSize;
+    }
+    
+    public int getFileFlags() {
+        return this.fileFlags;
+    }
+    
+    public int getCompSize() {
+        return this.compSize;
+    }
     
     public long getFileTime() {
         return (((long) this.fileTimeHi << 32L) & 0xFFFFFFFF00000000L) | this.fileTimeLo;

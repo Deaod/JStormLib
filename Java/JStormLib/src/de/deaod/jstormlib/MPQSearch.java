@@ -16,6 +16,9 @@ public class MPQSearch implements Iterator<MPQFindData> {
     
     SearchType type = SearchType.NORMAL;
     
+    MPQSearch() {
+    }
+    
     private static native boolean findNextFile(long search, MPQFindData findFileData) throws MPQFileNotFoundException;
     
     private static native boolean findClose(long search);
@@ -52,7 +55,7 @@ public class MPQSearch implements Iterator<MPQFindData> {
     }
     
     /**
-     * Not supported by MPQSearch; always throws UnsupportedOperationException.
+     * Not supported by MPQSearch. Always throws UnsupportedOperationException.
      * 
      * @see UnsupportedOperationException
      */
