@@ -12,7 +12,7 @@ set OLD_DIR=%CD%
 set CLASS_DIR=%CD%\Java\JStormLib\bin\
 
 :: where to put resulting .h files
-set OUTPUT_DIR=%CD%\Native\JStormLib\JStormLib
+set OUTPUT_DIR=%CD%\Native\JStormLib
 
 :: individual classes that have natives in them
 set MPQARCHIVE=de.deaod.jstormlib.MPQArchive
