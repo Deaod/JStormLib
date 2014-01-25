@@ -5,8 +5,8 @@ import java.util.Iterator;
 import de.deaod.jstormlib.data.MPQFindData;
 import de.deaod.jstormlib.exceptions.MPQFileNotFoundException;
 
-public class MPQSearch implements Iterator<MPQFindData> {
-    long        search;
+public class MPQSearch implements AutoCloseable, Iterator<MPQFindData> {
+    long        searchHandle;
     MPQFindData next;
     
     enum SearchType {
@@ -42,10 +42,10 @@ public class MPQSearch implements Iterator<MPQFindData> {
         try {
             switch (this.type) {
                 case NORMAL:
-                    MPQSearch.findNextFile(this.search, this.next);
+                    MPQSearch.findNextFile(this.searchHandle, this.next);
                     break;
                 case LISTFILE:
-                    MPQSearch.listFindNextFile(this.search, this.next);
+                    MPQSearch.listFindNextFile(this.searchHandle, this.next);
                     break;
             }
         } catch (MPQFileNotFoundException fnfe) {
@@ -65,15 +65,23 @@ public class MPQSearch implements Iterator<MPQFindData> {
     }
     
     @Override
-    protected void finalize() throws Throwable {
-        switch (this.type) {
-            case NORMAL:
-                MPQSearch.findClose(this.search);
-                break;
-            case LISTFILE:
-                MPQSearch.listFindClose(this.search);
-                break;
+    public void close() {
+        if (this.searchHandle > 0) {
+            switch (this.type) {
+                case NORMAL:
+                    MPQSearch.findClose(this.searchHandle);
+                    break;
+                case LISTFILE:
+                    MPQSearch.listFindClose(this.searchHandle);
+                    break;
+            }
+            this.searchHandle = 0;
         }
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+        close();
         super.finalize();
     }
 }

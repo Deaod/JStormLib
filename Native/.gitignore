@@ -1,0 +1,11 @@
+/bin
+/ipch
+/JNIHelper/Win32
+/JNIHelper/x64
+/JStormLib/Win32
+/JStormLib/x64
+/*.suo
+/*.sdf
+/*.opensdf
+*.filters
+*.user

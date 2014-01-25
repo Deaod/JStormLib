@@ -1,6 +1,5 @@
 package de.deaod.jstormlib;
 
-import java.util.EnumSet;
 
 public class MPQVerifyFileFlags {
     public enum Flag {
@@ -19,9 +18,9 @@ public class MPQVerifyFileFlags {
         }
     }
     
-    private EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);
+    private Flag[] flags = new Flag[0];
     
-    public void setFlags(EnumSet<Flag> flags) {
+    public void setFlags(Flag... flags) {
         this.flags = flags;
     }
     

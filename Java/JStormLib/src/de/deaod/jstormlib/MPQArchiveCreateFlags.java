@@ -1,10 +1,18 @@
 package de.deaod.jstormlib;
 
-import java.util.EnumSet;
-import java.util.Iterator;
-
+/**
+ * Flags for use when creating a new MPQ archive.
+ * 
+ * @author Deaod <deaod@deaod.de>
+ */
 public class MPQArchiveCreateFlags {
     
+    /**
+     * Version of a new MPQ archive.
+     * 
+     * @author Deaod <deaod@deaod.de>
+     * 
+     */
     public enum Version {
         /**
          * Creates an MPQ version 1.0 (up to 4 GB). This is the default value.
@@ -19,7 +27,7 @@ public class MPQArchiveCreateFlags {
          */
         VERSION_3(0x00020000),
         /**
-         * Creates an MPQ version 4.0 (used in WoW-Cataclysm).
+         * Creates an MPQ version 4.0 (used in WoW-Cataclysm, SC2, D3, ...).
          */
         VERSION_4(0x00030000);
         
@@ -34,6 +42,12 @@ public class MPQArchiveCreateFlags {
         }
     }
     
+    /**
+     * Additional flags for creating an MPQ archive.
+     * 
+     * @author Deaod <deaod@deaod.de>
+     * 
+     */
     public enum MPQCreateFlag {
         /**
          * When creating new MPQ, the (attributes) file will be added to it. The (attributes) file contains additional
@@ -52,23 +66,36 @@ public class MPQArchiveCreateFlags {
         }
     }
     
-    private Version                version     = Version.VERSION_1;
-    private EnumSet<MPQCreateFlag> createFlags = EnumSet.noneOf(MPQCreateFlag.class);
+    private Version         version     = Version.VERSION_1;
+    private MPQCreateFlag[] createFlags = new MPQCreateFlag[0];
     
+    /**
+     * Changes the version to use when creating a new archive using these flags.
+     * 
+     * @param version the new version to use
+     */
     public void setVersion(Version version) {
         this.version = version;
     }
     
-    public void setCreateFlags(EnumSet<MPQCreateFlag> createFlags) {
+    /**
+     * Changes the additional flags to use when creating a new MPQ archive.
+     * 
+     * @param createFlags the new additional flags
+     */
+    public void setCreateFlags(MPQCreateFlag... createFlags) {
         this.createFlags = createFlags;
     }
     
+    /**
+     * Returns an integer representation of the options to use when creating a new MPQ archive.
+     * 
+     * @return an integer representation of the options to use when creating a new MPQ archive
+     */
     public int getFlags() {
         int result = 0;
         result |= this.version.getValue();
-        Iterator<MPQCreateFlag> it = this.createFlags.iterator();
-        while (it.hasNext()) {
-            MPQCreateFlag flag = it.next();
+        for (MPQCreateFlag flag : this.createFlags) {
             result |= flag.getValue();
         }
         return result;

@@ -1,6 +1,18 @@
 package de.deaod.jstormlib;
 
+/**
+ * Wrapper class for possible ways to compress data within MPQ archives.
+ * 
+ * @author Deaod <deaod@deaod.de>
+ * 
+ */
 public class MPQCompressionFlags {
+    /**
+     * Different compressions supported by MPQs.
+     * 
+     * @author Deaod <deaod@deaod.de>
+     * 
+     */
     public enum Compression {
         /**
          * Don't compress in any way.
@@ -50,10 +62,20 @@ public class MPQCompressionFlags {
     
     private Compression compression = Compression.NONE;
     
+    /**
+     * Returns the primary type of compression to use when compressing data.
+     * 
+     * @return the primary compression type
+     */
     public Compression getCompression() {
         return this.compression;
     }
     
+    /**
+     * Changes the primary type of compression to use when compressing data.
+     * 
+     * @param compression the new primary compression type
+     */
     public void setCompression(Compression compression) {
         this.compression = compression;
     }
@@ -61,10 +83,20 @@ public class MPQCompressionFlags {
     private static final int COMPRESSION_PKWARE   = 0x08;
     private boolean          usePKWARECompression = false;
     
+    /**
+     * Returns whether or not to use PKWARE compression
+     * 
+     * @return <code>true</code> if data should additionally be compressed using PKWARE, <code>false</code> otherwise
+     */
     public boolean isUsingPKWARECompression() {
         return this.usePKWARECompression;
     }
     
+    /**
+     * Changes whether to use PKWARE compression in addition to the primary compression type.
+     * 
+     * @param usePKWARE
+     */
     public void setUsingPKWARECompression(boolean usePKWARE) {
         this.usePKWARECompression = usePKWARE;
     }
@@ -72,10 +104,20 @@ public class MPQCompressionFlags {
     private static final int COMPRESSION_SPARSE   = 0x20;
     private boolean          useSparseCompression = false;
     
+    /**
+     * Returns whether or not to use Sparse compression in addition to the primary compression.
+     * 
+     * @return whether or not to use Sparse compression
+     */
     public boolean isUsingSparseCompression() {
         return this.useSparseCompression;
     }
     
+    /**
+     * Changes whether to use Sparse compression in addition to the primary compression type.
+     * 
+     * @param useSparse
+     */
     public void setUsingSparseCompression(boolean useSparse) {
         this.useSparseCompression = useSparse;
     }

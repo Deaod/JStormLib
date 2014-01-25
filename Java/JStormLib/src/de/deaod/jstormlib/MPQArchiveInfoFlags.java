@@ -1,6 +1,6 @@
 package de.deaod.jstormlib;
 
-public enum MPQArchiveInfoFlags {
+enum MPQArchiveInfoFlags {
     ARCHIVE_NAME(1),
     ARCHIVE_SIZE(2),
     HASH_TABLE_SIZE(4),

@@ -1,5 +1,10 @@
 package de.deaod.jstormlib;
 
+/**
+ * Support class for compressing data.
+ * 
+ * @author Deaod <deaod@deaod.de>
+ */
 public final class MPQCompression {
     
     private MPQCompression() {
