@@ -135,18 +135,178 @@ JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_hasFile
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    getArchiveInfo
- * Signature: (JI)[B
+ * Method:    getArchiveNameN
+ * Signature: (J)Ljava/lang/String;
  */
-JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveInfo
-  (JNIEnv *, jclass, jlong, jint);
+JNIEXPORT jstring JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveNameN
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    getMPQDataEx
+ * Method:    getUserDataOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getUserDataOffsetN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getUserDataHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQUserDataHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getUserDataHeaderN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getUserDataN
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getUserDataN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHeaderOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getHeaderOffsetN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHeaderSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getHeaderSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getHeaderN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetTableOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetTableOffsetN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetTableSizeN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetTableSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQHetHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetHeaderN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetTableN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQHetTable;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetTableN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetTableOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetTableOffsetN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetTableSizeN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetTableSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQBetHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetHeaderN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetTableN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQBetTable;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetTableN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getArchiveSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHashTableSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getHashTableSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBlockTableSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getBlockTableSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getMPQDataN
  * Signature: (J)[Lde/deaod/jstormlib/data/MPQHash;
  */
-JNIEXPORT jobjectArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getMPQDataEx
+JNIEXPORT jobjectArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getMPQDataN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getSectorSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getSectorSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getFilesCountN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getFilesCountN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    isReadOnlyN
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_isReadOnlyN
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -168,7 +328,7 @@ JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_verifyArchive
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
  * Method:    extractFile
- * Signature: (JLjava/lang/String;Ljava/lang/String;I)Z
+ * Signature: (JLjava/lang/String;Ljava/lang/String;I)V
  */
 JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQArchive_extractFile
   (JNIEnv *, jclass, jlong, jstring, jstring, jint);

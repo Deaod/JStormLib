@@ -24,7 +24,7 @@ public class ArrayDataReader extends ByteArrayInputStream {
      * @param buf the input buffer.
      * @see java.io.ByteArrayInputStream
      */
-    public ArrayDataReader(byte[] buf) {
+    public ArrayDataReader(final byte[] buf) {
         super(buf);
     }
     
@@ -39,7 +39,7 @@ public class ArrayDataReader extends ByteArrayInputStream {
      * @param length the maximum number of bytes to read from the buffer.
      * @see java.io.ByteArrayInputStream
      */
-    public ArrayDataReader(byte[] buf, int offset, int length) {
+    public ArrayDataReader(final byte[] buf, final int offset, final int length) {
         super(buf, offset, length);
     }
     
@@ -52,7 +52,7 @@ public class ArrayDataReader extends ByteArrayInputStream {
      * @param byteOrder the default byte order with which to read from the array.
      * @see java.io.ByteArrayInputStream
      */
-    public ArrayDataReader(byte[] buf, ByteOrder byteOrder) {
+    public ArrayDataReader(final byte[] buf, final ByteOrder byteOrder) {
         super(buf);
         this.byteOrder = byteOrder;
     }
@@ -69,7 +69,7 @@ public class ArrayDataReader extends ByteArrayInputStream {
      * @param byteOrder the default byte order with which to read from the array.
      * @see java.io.ByteArrayInputStream
      */
-    public ArrayDataReader(byte[] buf, int offset, int length, ByteOrder byteOrder) {
+    public ArrayDataReader(final byte[] buf, final int offset, final int length, final ByteOrder byteOrder) {
         super(buf, offset, length);
         this.byteOrder = byteOrder;
     }
@@ -103,7 +103,7 @@ public class ArrayDataReader extends ByteArrayInputStream {
      * @see #readDouble()
      * @see ByteOrder
      */
-    public void setByteOrder(ByteOrder byteOrder) {
+    public void setByteOrder(final ByteOrder byteOrder) {
         this.byteOrder = byteOrder;
     }
     
@@ -145,9 +145,8 @@ public class ArrayDataReader extends ByteArrayInputStream {
     public short readShort() {
         if (this.byteOrder == ByteOrder.BIG_ENDIAN) {
             return readShortBE();
-        } else {
-            return readShortLE();
         }
+        return readShortLE();
     }
     
     //
@@ -192,9 +191,8 @@ public class ArrayDataReader extends ByteArrayInputStream {
     public int readInt() {
         if (this.byteOrder == ByteOrder.BIG_ENDIAN) {
             return readIntBE();
-        } else {
-            return readIntLE();
         }
+        return readIntLE();
     }
     
     //
@@ -247,9 +245,8 @@ public class ArrayDataReader extends ByteArrayInputStream {
     public long readLong() {
         if (this.byteOrder == ByteOrder.BIG_ENDIAN) {
             return readLongBE();
-        } else {
-            return readLongLE();
         }
+        return readLongLE();
     }
     
     //

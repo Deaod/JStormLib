@@ -5,33 +5,30 @@
 #include <JArray.h>
 #include <JniEnv.h>
 #include <JniHelper.h>
+#include <memory>
+#include <algorithm>
 
-#define JAVA_MPQ_COMPACT_CALLBACK_CLASS "de/deaod/jstormlib/MPQCompactCallback"
-#define JAVA_MPQ_COMPACT_CALLBACK_FIELD \
-    JNI_FIELD_CLASS(JAVA_MPQ_COMPACT_CALLBACK_CLASS)
+using std::unique_ptr;
 
-#define JAVA_METHOD_COMPACT_ARCHIVE_CALLBACK "compactArchiveCallback"
-#define JAVA_SIGNATURE_COMPACT_ARCHIVE_CALLBACK \
-    JNI_METHOD_4(JNI_VOID, JAVA_MPQ_COMPACT_CALLBACK_FIELD, JNI_INT, JNI_LONG, JNI_LONG)
+#define C_MPQCompactCallback "de/deaod/jstormlib/MPQCompactCallback"
+#define F_MPQCompactCallback JNI_ClassToField(C_MPQCompactCallback)
 
-#define JAVA_MPQ_ADD_FILE_CALLBACK_CLASS "de/deaod/jstormlib/MPQAddFileCallback"
-#define JAVA_MPQ_ADD_FILE_CALLBACK_FIELD \
-    JNI_FIELD_CLASS(JAVA_MPQ_ADD_FILE_CALLBACK_CLASS)
+#define M_compactArchiveCallback "compactArchiveCallback"
+#define S_compactArchiveCallback JNI_METHOD_4(JNI_void, F_MPQCompactCallback, JNI_int, JNI_long, JNI_long)
 
-#define JAVA_METHOD_ADD_FILE_CALLBACK "addFileCallback"
-#define JAVA_SIGNATURE_ADD_FILE_CALLBACK \
-    JNI_METHOD_4(JNI_VOID, JAVA_MPQ_ADD_FILE_CALLBACK_FIELD, JNI_INT, JNI_INT, JNI_BOOLEAN)
+#define C_MPQAddFileCallback "de/deaod/jstormlib/MPQAddFileCallback"
+#define F_MPQAddFileCallback JNI_ClassToField(C_MPQAddFileCallback)
 
-#define JAVA_MPQ_BLOCK_CLASS "de/deaod/jstormlib/data/MPQBlock"
-#define JAVA_MPQ_HASH_CLASS "de/deaod/jstormlib/data/MPQHash"
-#define JAVA_MPQ_BLOCK_FIELD JNI_FIELD_CLASS(JAVA_MPQ_BLOCK_CLASS)
-#define JAVA_MPQ_HASH_FIELD JNI_FIELD_CLASS(JAVA_MPQ_HASH_CLASS)
+#define M_addFileCallback "addFileCallback"
+#define S_addFileCallback JNI_METHOD_4(JNI_void, F_MPQAddFileCallback, JNI_int, JNI_int, JNI_boolean)
 
-#define JAVA_MPQ_LOCALE_CLASS "de/deaod/jstormlib/MPQLocale"
-#define JAVA_MPQ_LOCALE_FIELD JNI_FIELD_CLASS(JAVA_MPQ_LOCALE_CLASS)
+#define C_MPQBlock "de/deaod/jstormlib/data/MPQBlock"
+#define C_MPQHash "de/deaod/jstormlib/data/MPQHash"
+#define C_MPQUserDataHeader "de/deaod/jstormlib/data/MPQUserDataHeader"
 
-#define JAVA_MPQ_FILE_FLAGS_CLASS "de/deaod/jstormlib/MPQFileFlags"
-#define JAVA_MPQ_FILE_FLAGS_FIELD JNI_FIELD_CLASS(JAVA_MPQ_FILE_FLAGS_CLASS)
+#define F_MPQBlock JNI_ClassToField(C_MPQBlock)
+#define F_MPQHash JNI_ClassToField(C_MPQHash)
+#define F_MPQUserDataHeader JNI_ClassToField(C_MPQUserDataHeader)
 
 class MPQCallbackData {
     jclass clazz;
@@ -236,7 +233,7 @@ static void WINAPI DefaultCompactCallback(void* userData, DWORD workType, ULONGL
     MPQCallbackData *callbackData = reinterpret_cast<MPQCallbackData*>(userData);
     
     JniEnv env;
-    jmethodID methodID = env.GetStaticMethodID(callbackData->getClass(), JAVA_METHOD_COMPACT_ARCHIVE_CALLBACK, JAVA_SIGNATURE_COMPACT_ARCHIVE_CALLBACK);
+    jmethodID methodID = env.GetStaticMethodID(callbackData->getClass(), M_compactArchiveCallback, S_compactArchiveCallback);
     env.CallStaticVoidMethod(callbackData->getClass(), methodID, callbackData->getCallback(), workType, bytesProcessed, bytesTotal);
 
     if (workType == CCB_CLOSING_ARCHIVE) {
@@ -323,7 +320,7 @@ static void WINAPI DefaultAddFileCallback(void * userData, DWORD bytesWritten, D
     MPQCallbackData *callbackData = reinterpret_cast<MPQCallbackData*>(userData);
 
     JniEnv env;
-    jmethodID methodID = env.GetStaticMethodID(callbackData->getClass(), JAVA_METHOD_ADD_FILE_CALLBACK, JAVA_SIGNATURE_ADD_FILE_CALLBACK);
+    jmethodID methodID = env.GetStaticMethodID(callbackData->getClass(), M_addFileCallback, S_addFileCallback);
     env.CallStaticVoidMethod(callbackData->getClass(), methodID, callbackData->getCallback(), bytesWritten, bytesTotal, finalCall);
 
     if (finalCall) {
@@ -369,54 +366,319 @@ JNIH_EXCEPTION_TRAP_BEGIN() {
  * Method:    getArchiveInfo
  * Signature: (JI)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveInfo
-  (JNIEnv *env, jclass /*clazz*/, jlong mpq, jint infoType)
-JNIH_EXCEPTION_TRAP_BEGIN() {
-    jint dataSize = 0;
-    jboolean result;
+//JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveInfo
+//  (JNIEnv *env, jclass /*clazz*/, jlong mpq, jint infoType)
+//JNIH_EXCEPTION_TRAP_BEGIN() {
+//    jint dataSize = 0;
+//    jboolean result;
+//
+//    result = SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), infoType, NULL, 0, reinterpret_cast<LPDWORD>(&dataSize));
+//
+//    if ((!result) && (GetLastError() != ERROR_INSUFFICIENT_BUFFER)) {
+//        ErrorCodeToException(env, GetLastError());
+//    } else {
+//        JByteArray data(env, dataSize);
+//        
+//        result = SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), infoType, data.getData(), dataSize, reinterpret_cast<LPDWORD>(&dataSize));
+//
+//        if (!result) {
+//            ErrorCodeToException(env, GetLastError());
+//        }
+//
+//        return data.getArray();
+//    }
+//} JNIH_EXCEPTION_TRAP_END
 
-    result = SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), infoType, NULL, 0, reinterpret_cast<LPDWORD>(&dataSize));
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getArchiveNameN
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveNameN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    DWORD length;
 
-    if ((!result) && (GetLastError() != ERROR_INSUFFICIENT_BUFFER)) {
-        ErrorCodeToException(env, GetLastError());
+    SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), SFileMpqFileName, NULL, 0, &length);
+
+    unique_ptr<TCHAR[]> archiveName(new TCHAR[length]);
+    BOOL success = SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), SFileMpqFileName, archiveName.get(), length, &length);
+
+    if (success) {
+        JTString str(env, archiveName.get());
+        return str.getJString();
     } else {
-        JByteArray data(env, dataSize);
-        
-        result = SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), infoType, data.getData(), dataSize, reinterpret_cast<LPDWORD>(&dataSize));
-
-        if (!result) {
-            ErrorCodeToException(env, GetLastError());
-        }
-
-        return data.getArray();
+        ErrorCodeToException(env, GetLastError());
     }
 } JNIH_EXCEPTION_TRAP_END
 
 /*
  * Class:     de_deaod_jstormlib_MPQArchive
- * Method:    getMPQDataEx
+ * Method:    getUserDataOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getUserDataOffsetN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getUserDataHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQUserDataHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getUserDataHeaderN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    TMPQUserData header;
+
+    BOOL success = SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), SFileMpqUserDataHeader, &header, sizeof(header), NULL);
+
+    if (success) {
+        jclass mpqUserDataHeaderClass = jenv.FindClass(C_MPQUserDataHeader);
+        jmethodID constructor = jenv.GetMethodID(mpqUserDataHeaderClass, JNI_Constructor, JNI_CONSTRUCTOR_3(JNI_int, JNI_int, JNI_int));
+
+        return jenv.NewObject(mpqUserDataHeaderClass, constructor, header.cbUserDataSize, header.dwHeaderOffs, header.cbUserDataHeader);
+    } else {
+        ErrorCodeToException(env, GetLastError());
+    }
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getUserDataN
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getUserDataN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    DWORD length;
+    SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), SFileMpqUserData, NULL, 0, &length);
+
+    unique_ptr<BYTE[]> userData(new BYTE[length]);
+    BOOL success = SFileGetFileInfo(reinterpret_cast<HANDLE>(mpq), SFileMpqUserData, userData.get(), length, &length);
+
+    if (success) {
+        JByteArray result(env, length);
+
+        memcpy(result.getData(), userData.get(), length);
+        result.release();
+
+        return result.getArray();
+    } else {
+        ErrorCodeToException(env, GetLastError());
+    }
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHeaderOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getHeaderOffsetN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHeaderSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getHeaderSizeN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getHeaderN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    //TMPQHeader header;
+
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetTableOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetTableOffsetN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetTableSizeN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetTableSizeN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQHetHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetHeaderN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHetTableN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQHetTable;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getHetTableN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetTableOffsetN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetTableOffsetN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetTableSizeN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetTableSizeN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetHeaderN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQBetHeader;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetHeaderN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBetTableN
+ * Signature: (J)Lde/deaod/jstormlib/data/MPQBetTable;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQArchive_getBetTableN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getArchiveSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getArchiveSizeN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint archiveSize = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(mpq),
+        SFileInfoClass::SFileMpqArchiveSize,
+        &archiveSize,
+        4,
+        NULL
+    );
+
+    return archiveSize;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getHashTableSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getHashTableSizeN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint hashTableSize = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(mpq),
+        SFileInfoClass::SFileMpqHashTableSize,
+        &hashTableSize,
+        4,
+        NULL
+    );
+
+    return hashTableSize;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getBlockTableSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getBlockTableSizeN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint blockTableSize = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(mpq),
+        SFileInfoClass::SFileMpqBlockTableSize,
+        &blockTableSize,
+        4,
+        NULL
+    );
+
+    return blockTableSize;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getMPQDataN
  * Signature: (J)[Lde/deaod/jstormlib/data/MPQHash;
  */
-JNIEXPORT jobjectArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getMPQDataEx
-  (JNIEnv *env, jclass cls, jlong mpq)
+JNIEXPORT jobjectArray JNICALL Java_de_deaod_jstormlib_MPQArchive_getMPQDataN
+  (JNIEnv *env, jclass, jlong mpq)
 JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
-    jclass blockClass = jenv.FindClass(JAVA_MPQ_BLOCK_CLASS);
-    jclass hashClass = jenv.FindClass(JAVA_MPQ_HASH_CLASS);
-    jclass localeClass = jenv.FindClass(JAVA_MPQ_LOCALE_CLASS);
-    jclass fileFlagsClass = jenv.FindClass(JAVA_MPQ_FILE_FLAGS_CLASS);
+    jclass blockClass = jenv.FindClass(C_MPQBlock);
+    jclass hashClass = jenv.FindClass(C_MPQHash);
+    jclass localeClass = jenv.FindClass(C_MPQLocale);
+    jclass fileFlagsClass = jenv.FindClass(C_MPQFileFlags);
 
-    jmethodID hashConstructor = jenv.GetMethodID(hashClass, JNI_CONSTRUCTOR, JNI_CONSTRUCTOR_0());
-    jmethodID blockConstructor = jenv.GetMethodID(blockClass, JNI_CONSTRUCTOR, JNI_CONSTRUCTOR_0());
-    jmethodID localeFromInteger = jenv.GetStaticMethodID(localeClass, "fromInteger", JNI_METHOD_1(JAVA_MPQ_LOCALE_FIELD, JNI_INT));
-    jmethodID fileFlagsFromInteger = jenv.GetStaticMethodID(fileFlagsClass, "fromInteger", JNI_METHOD_1(JAVA_MPQ_FILE_FLAGS_FIELD, JNI_INT));
+    jmethodID hashConstructor = jenv.GetMethodID(hashClass, JNI_Constructor, JNI_CONSTRUCTOR_0());
+    jmethodID blockConstructor = jenv.GetMethodID(blockClass, JNI_Constructor, JNI_CONSTRUCTOR_0());
+    jmethodID localeFromInteger = jenv.GetStaticMethodID(localeClass, "fromInteger", JNI_METHOD_1(F_MPQLocale, JNI_int));
+    jmethodID fileFlagsFromInteger = jenv.GetStaticMethodID(fileFlagsClass, "fromInteger", JNI_METHOD_1(F_MPQFileFlags, JNI_int));
 
     jobject emptyBlock = NULL;
     jobject deletedBlock = NULL;
 
     {
-        jfieldID field = jenv.GetStaticFieldID(blockClass, "EMPTY", JAVA_MPQ_BLOCK_FIELD);
+        jfieldID field = jenv.GetStaticFieldID(blockClass, "EMPTY", F_MPQBlock);
         emptyBlock = jenv.GetStaticObjectField(blockClass, field);
-        field = jenv.GetStaticFieldID(blockClass, "DELETED", JAVA_MPQ_BLOCK_FIELD);
+        field = jenv.GetStaticFieldID(blockClass, "DELETED", F_MPQBlock);
         deletedBlock = jenv.GetStaticObjectField(blockClass, field);
     }
 
@@ -425,57 +687,57 @@ JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
     jint blockTableSize = 0;
     SFileGetFileInfo(
         reinterpret_cast<HANDLE>(mpq),
-        SFILE_INFO_HASH_TABLE_SIZE,
+        SFileInfoClass::SFileMpqHashTableSize,
         &hashTableSize,
         4,
         &lengthNeeded
     );
     SFileGetFileInfo(
         reinterpret_cast<HANDLE>(mpq),
-        SFILE_INFO_BLOCK_TABLE_SIZE,
+        SFileInfoClass::SFileMpqBlockTableSize,
         &blockTableSize,
         4,
         &lengthNeeded
     );
 
-    TMPQHash* hashTable = new TMPQHash[hashTableSize];
-    TMPQBlock* blockTable = new TMPQBlock[blockTableSize];
-    jobject* blockTableCache = new jobject[blockTableSize];
+    unique_ptr<TMPQHash[]> hashTable(new TMPQHash[hashTableSize]);
+    unique_ptr<TMPQBlock[]> blockTable(new TMPQBlock[blockTableSize]);
+    unique_ptr<jobject[]> blockTableCache(new jobject[blockTableSize]);
     SFileGetFileInfo(
         reinterpret_cast<HANDLE>(mpq),
-        SFILE_INFO_HASH_TABLE,
-        &hashTable,
+        SFileInfoClass::SFileMpqHashTable,
+        hashTable.get(),
         sizeof(TMPQHash) * hashTableSize,
         &lengthNeeded
     );
     SFileGetFileInfo(
         reinterpret_cast<HANDLE>(mpq),
-        SFILE_INFO_HASH_TABLE,
-        &blockTable,
+        SFileInfoClass::SFileMpqBlockTable,
+        blockTable.get(),
         sizeof(TMPQBlock) * blockTableSize,
         &lengthNeeded
     );
 
-    memset(blockTableCache, 0, sizeof(jobject) * blockTableSize);
+    memset(blockTableCache.get(), 0, sizeof(jobject) * blockTableSize);
 
     jobjectArray hashArray = jenv.NewObjectArray(hashTableSize, hashClass, NULL);
 
     for(int i = 0; i < hashTableSize; i++) {
         jobject hash = jenv.NewObject(hashClass, hashConstructor);
-        jenv.SetField(hash, "filePathHashA", JNI_INT, &(hashTable[i].dwName1));
-        jenv.SetField(hash, "filePathHashB", JNI_INT, &(hashTable[i].dwName2));
+        jenv.SetField(hash, "filePathHashA", JNI_int, &(hashTable[i].dwName1));
+        jenv.SetField(hash, "filePathHashB", JNI_int, &(hashTable[i].dwName2));
 
         jobject locale = jenv.CallStaticObjectMethod(localeClass, localeFromInteger, hashTable[i].lcLocale);
-        jenv.SetField(hash, "locale", JAVA_MPQ_LOCALE_FIELD, &locale);
+        jenv.SetField(hash, "locale", F_MPQLocale, &locale);
 
         jobject block = NULL;
         DWORD blockIndex = hashTable[i].dwBlockIndex;
         switch(blockIndex) {
-        case 0xFFFFFFFF:
+        case HASH_ENTRY_FREE:
             block = emptyBlock;
             break;
 
-        case 0xFFFFFFFE:
+        case HASH_ENTRY_DELETED:
             block = deletedBlock;
             break;
 
@@ -484,12 +746,12 @@ JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
                 block = jenv.NewObject(blockClass, blockConstructor);
 
                 // initialize block
-                jenv.SetField(block, "filePosition", JNI_INT, &(blockTable[blockIndex].dwFilePos));
-                jenv.SetField(block, "compressedSize", JNI_INT, &(blockTable[blockIndex].dwCSize));
-                jenv.SetField(block, "fileSize", JNI_INT, &(blockTable[blockIndex].dwFSize));
+                jenv.SetField(block, "filePosition", JNI_int, &(blockTable[blockIndex].dwFilePos));
+                jenv.SetField(block, "compressedSize", JNI_int, &(blockTable[blockIndex].dwCSize));
+                jenv.SetField(block, "fileSize", JNI_int, &(blockTable[blockIndex].dwFSize));
 
                 jobject flags = jenv.CallStaticObjectMethod(fileFlagsClass, fileFlagsFromInteger, blockTable[blockIndex].dwFlags);
-                jenv.SetField(block, "flags", JAVA_MPQ_FILE_FLAGS_FIELD, &flags);
+                jenv.SetField(block, "flags", F_MPQFileFlags, &flags);
 
                 blockTableCache[blockIndex] = block;
             } else {
@@ -498,7 +760,7 @@ JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
             break;
         }
 
-        jenv.SetField(hash, "block", JAVA_MPQ_BLOCK_FIELD, blockTableCache[blockIndex]);
+        jenv.SetField(hash, "block", F_MPQBlock, blockTableCache[blockIndex]);
 
         //
 
@@ -506,6 +768,66 @@ JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
     }
 
     return hashArray;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getSectorSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getSectorSizeN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint sectorSize = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(mpq),
+        SFileInfoClass::SFileMpqSectorSize,
+        &sectorSize,
+        4,
+        NULL
+    );
+
+    return sectorSize;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    getFilesCountN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQArchive_getFilesCountN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint filesCount = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(mpq),
+        SFileInfoClass::SFileMpqNumberOfFiles,
+        &filesCount,
+        4,
+        NULL
+    );
+
+    return filesCount;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQArchive
+ * Method:    isReadOnlyN
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQArchive_isReadOnlyN
+  (JNIEnv *env, jclass, jlong mpq)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint readOnly = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(mpq),
+        SFileInfoClass::SFileMpqIsReadOnly,
+        &readOnly,
+        4,
+        NULL
+    );
+
+    return readOnly != 0;
 } JNIH_EXCEPTION_TRAP_END
 
 /*

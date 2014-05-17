@@ -55,10 +55,10 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQFileNotFoundException in case the file cant be converted into an MPQ, eg. when the file is actually a
      *             directory.
      */
-    public MPQArchive(String file) throws MPQFileNotFoundException {
+    public MPQArchive(final String file) throws MPQFileNotFoundException {
         try {
             initializeOpen(file, new MPQArchiveOpenFlags());
-        } catch (MPQException e) {
+        } catch (final MPQException e) {
             initializeCreate(file, new MPQArchiveCreateFlags(), MPQArchive.DEFAULT_MAX_FILE_COUNT);
         }
     }
@@ -72,10 +72,10 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQFileNotFoundException in case the file cant be converted into an MPQ, eg. when the file is actually a
      *             directory.
      */
-    public MPQArchive(File file) throws MPQFileNotFoundException {
+    public MPQArchive(final File file) throws MPQFileNotFoundException {
         try {
             initializeOpen(file.getAbsolutePath(), new MPQArchiveOpenFlags());
-        } catch (MPQException e) {
+        } catch (final MPQException e) {
             initializeCreate(file.getAbsolutePath(), new MPQArchiveCreateFlags(), MPQArchive.DEFAULT_MAX_FILE_COUNT);
         }
     }
@@ -89,8 +89,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQIsAVIException in case the URL points to an AVI file
      * @throws MPQFileNotFoundException in case the URL doesnt point to a file
      */
-    public MPQArchive(URL url) throws MPQFormatException, MPQIsAVIException, MPQFileNotFoundException {
-        MPQArchiveOpenFlags flags = new MPQArchiveOpenFlags();
+    public MPQArchive(final URL url) throws MPQFormatException, MPQIsAVIException, MPQFileNotFoundException {
+        final MPQArchiveOpenFlags flags = new MPQArchiveOpenFlags();
         flags.setBaseProvider(MPQArchiveOpenFlags.BaseProvider.HTTP);
         initializeOpen(url.toString(), flags);
     }
@@ -104,8 +104,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQIsAVIException in case the file is an AVI file
      * @throws MPQFileNotFoundException in case the file doesnt exist
      */
-    public MPQArchive(String file, MPQArchiveOpenFlags flags) throws MPQFormatException, MPQIsAVIException,
-            MPQFileNotFoundException {
+    public MPQArchive(final String file, final MPQArchiveOpenFlags flags) throws MPQFormatException, MPQIsAVIException,
+    MPQFileNotFoundException {
         initializeOpen(file, flags);
     }
     
@@ -118,8 +118,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQIsAVIException in case the file is an AVI file
      * @throws MPQFileNotFoundException in case the file doesnt exist
      */
-    public MPQArchive(File file, MPQArchiveOpenFlags flags) throws MPQFormatException, MPQIsAVIException,
-            MPQFileNotFoundException {
+    public MPQArchive(final File file, final MPQArchiveOpenFlags flags) throws MPQFormatException, MPQIsAVIException,
+    MPQFileNotFoundException {
         initializeOpen(file.getAbsolutePath(), flags);
     }
     
@@ -132,8 +132,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQIsAVIException in case the URL points to an AVI file
      * @throws MPQFileNotFoundException in case the URL doesnt point to a valid resource
      */
-    public MPQArchive(URL url, MPQArchiveOpenFlags flags) throws MPQFormatException, MPQIsAVIException,
-            MPQFileNotFoundException {
+    public MPQArchive(final URL url, final MPQArchiveOpenFlags flags) throws MPQFormatException, MPQIsAVIException,
+    MPQFileNotFoundException {
         flags.setBaseProvider(MPQArchiveOpenFlags.BaseProvider.HTTP);
         initializeOpen(url.toString(), flags);
     }
@@ -146,8 +146,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQAlreadyExistsException in case the specified file is already an MPQ archive
      * @throws MPQFileNotFoundException in case creating the MPQ archive failed
      */
-    public MPQArchive(String file, MPQArchiveCreateFlags flags) throws MPQAlreadyExistsException,
-            MPQFileNotFoundException {
+    public MPQArchive(final String file, final MPQArchiveCreateFlags flags) throws MPQAlreadyExistsException,
+    MPQFileNotFoundException {
         initializeCreate(file, flags, MPQArchive.DEFAULT_MAX_FILE_COUNT);
     }
     
@@ -159,8 +159,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQAlreadyExistsException in case the specified file is already an MPQ archive
      * @throws MPQFileNotFoundException in case creating the MPQ archive failed
      */
-    public MPQArchive(File file, MPQArchiveCreateFlags flags) throws MPQAlreadyExistsException,
-            MPQFileNotFoundException {
+    public MPQArchive(final File file, final MPQArchiveCreateFlags flags) throws MPQAlreadyExistsException,
+    MPQFileNotFoundException {
         initializeCreate(file.getAbsolutePath(), flags, MPQArchive.DEFAULT_MAX_FILE_COUNT);
     }
     
@@ -168,18 +168,18 @@ public class MPQArchive implements AutoCloseable {
     
     private static native long createArchive(String name, int flags, int maxFileCount) throws MPQFileNotFoundException;
     
-    private void initializeCreate(String file, MPQArchiveCreateFlags flags, int maxFileCount)
-            throws MPQFileNotFoundException {
+    private void initializeCreate(final String file, final MPQArchiveCreateFlags flags, final int maxFileCount)
+        throws MPQFileNotFoundException {
         this.mpqHandle = MPQArchive.createArchive(file, flags.getFlags(), maxFileCount);
     }
     
     //
     
     private static native long openArchive(String name, int flags) throws MPQFormatException, MPQIsAVIException,
-            MPQFileNotFoundException;
+    MPQFileNotFoundException;
     
-    private void initializeOpen(String file, MPQArchiveOpenFlags flags) throws MPQFormatException, MPQIsAVIException,
-            MPQFileNotFoundException {
+    private void initializeOpen(final String file, final MPQArchiveOpenFlags flags) throws MPQFormatException,
+    MPQIsAVIException, MPQFileNotFoundException {
         this.mpqHandle = MPQArchive.openArchive(file, flags.getFlags());
     }
     
@@ -193,7 +193,7 @@ public class MPQArchive implements AutoCloseable {
      * 
      * @param file the auxiliary listfile
      */
-    public void addListFile(String file) {
+    public void addListFile(final String file) {
         MPQArchive.addListFile(this.mpqHandle, file);
     }
     
@@ -203,7 +203,7 @@ public class MPQArchive implements AutoCloseable {
      * 
      * @param file the auxiliary listfile
      */
-    public void addListFile(File file) {
+    public void addListFile(final File file) {
         MPQArchive.addListFile(this.mpqHandle, file.getAbsolutePath());
     }
     
@@ -222,7 +222,7 @@ public class MPQArchive implements AutoCloseable {
      * 
      * @param locale the new locale
      */
-    public static void setLocale(MPQLocale locale) {
+    public static void setLocale(final MPQLocale locale) {
         MPQArchive.setLocale(locale.getValue());
     }
     
@@ -257,6 +257,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * Closes the archive. All further operations on the archive will fail with an exception.
      */
+    @Override
     public void close() {
         MPQArchive.closeArchive(this.mpqHandle);
         this.mpqHandle = 0L;
@@ -271,16 +272,15 @@ public class MPQArchive implements AutoCloseable {
      * 
      * @param maxFileCount the new limit of files that can be stored within the archive.
      */
-    public void setMaxFileCount(int maxFileCount) {
-        MPQArchive.setMaxFileCount(
-                this.mpqHandle,
-                Math.max(MPQArchive.MAX_FILE_COUNT_MIN, Math.min(maxFileCount, MPQArchive.MAX_FILE_COUNT_MAX)));
+    public void setMaxFileCount(final int maxFileCount) {
+        MPQArchive.setMaxFileCount(this.mpqHandle,
+            Math.max(MPQArchive.MAX_FILE_COUNT_MIN, Math.min(maxFileCount, MPQArchive.MAX_FILE_COUNT_MAX)));
     }
     
     //
     
     private static native void compactArchive(long mpq, String listFile, boolean reserved)
-            throws MPQPermissionException;
+        throws MPQPermissionException;
     
     /**
      * Starts a complete rebuild of the archive, essentially defragmenting the archive. This operation blocks until it
@@ -301,7 +301,7 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQPermissionException in case the archive was opened in read-only mode.
      * @see #setCompactCallback(MPQCompactCallback)
      */
-    public void compactArchive(File listFile) throws MPQPermissionException {
+    public void compactArchive(final File listFile) throws MPQPermissionException {
         this.compactArchive(listFile.getAbsolutePath());
     }
     
@@ -313,15 +313,16 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQPermissionException in case the archive was opened in read-only mode.
      * @see #setCompactCallback(MPQCompactCallback)
      */
-    public void compactArchive(String listFile) throws MPQPermissionException {
-        if (this.compactCallback != null)
+    public void compactArchive(final String listFile) throws MPQPermissionException {
+        if (this.compactCallback != null) {
             MPQArchive.setCompactCallback(this.mpqHandle, this.compactCallback);
+        }
         
         MPQArchive.compactArchive(this.mpqHandle, listFile, false);
     }
     
-    private static void compactArchiveCallback(MPQCompactCallback callback, int workType, long bytesProcessed,
-            long bytesTotal) {
+    private static void compactArchiveCallback(final MPQCompactCallback callback, final int workType,
+        final long bytesProcessed, final long bytesTotal) {
         callback.compactCallback(MPQCompactWorkType.fromInteger(workType), bytesProcessed, bytesTotal);
     }
     
@@ -335,14 +336,14 @@ public class MPQArchive implements AutoCloseable {
      * 
      * @param compactCallback the new compact callback, or <code>null</code>.
      */
-    public void setCompactCallback(MPQCompactCallback compactCallback) {
+    public void setCompactCallback(final MPQCompactCallback compactCallback) {
         this.compactCallback = compactCallback;
     }
     
     //
     
     private static native void openPatchArchive(long mpq, String name, String patchPathPrefix, int flags)
-            throws MPQPermissionException, MPQFormatException, MPQIsAVIException;
+        throws MPQPermissionException, MPQFormatException, MPQIsAVIException;
     
     /**
      * Opens a file as a patch to the archive. The archive must have been opened in read-only mode. The patch archive
@@ -354,8 +355,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQFormatException in case the patch arcive is not a valid MPQ archive
      * @throws MPQIsAVIException in case the patch archive is an AVI file
      */
-    public void openPatchArchive(File file, String patchPathPrefix) throws MPQPermissionException, MPQFormatException,
-            MPQIsAVIException {
+    public void openPatchArchive(final File file, final String patchPathPrefix) throws MPQPermissionException,
+    MPQFormatException, MPQIsAVIException {
         this.openPatchArchive(file.getAbsolutePath(), patchPathPrefix);
     }
     
@@ -369,8 +370,8 @@ public class MPQArchive implements AutoCloseable {
      * @throws MPQFormatException in case the patch arcive is not a valid MPQ archive
      * @throws MPQIsAVIException in case the patch archive is an AVI file
      */
-    public void openPatchArchive(String file, String patchPathPrefix) throws MPQPermissionException,
-            MPQFormatException, MPQIsAVIException {
+    public void openPatchArchive(final String file, final String patchPathPrefix) throws MPQPermissionException,
+    MPQFormatException, MPQIsAVIException {
         MPQArchive.openPatchArchive(this.mpqHandle, file, patchPathPrefix, 0);
     }
     
@@ -396,7 +397,7 @@ public class MPQArchive implements AutoCloseable {
      * @param archivedName the name of the file inside the archive
      * @throws MPQAlreadyExistsException in case the archive already contains a file with the specified name
      */
-    public void addFile(String fileName, String archivedName) throws MPQAlreadyExistsException {
+    public void addFile(final String fileName, final String archivedName) throws MPQAlreadyExistsException {
         addFile(fileName, archivedName, new MPQFileFlags(), new MPQCompressionFlags());
     }
     
@@ -410,8 +411,8 @@ public class MPQArchive implements AutoCloseable {
      *            compression to use.
      * @throws MPQAlreadyExistsException in case the archive already contains a file with the specified name
      */
-    public void addFile(String fileName, String archivedName, MPQFileFlags flags, MPQCompressionFlags compression)
-            throws MPQAlreadyExistsException {
+    public void addFile(final String fileName, final String archivedName, final MPQFileFlags flags,
+        final MPQCompressionFlags compression) throws MPQAlreadyExistsException {
         addFile(fileName, archivedName, flags, compression, compression);
     }
     
@@ -427,26 +428,27 @@ public class MPQArchive implements AutoCloseable {
      *            compression to use for all blocks of data except the first one
      * @throws MPQAlreadyExistsException in case the archive already contains a file with the specified name
      */
-    public void addFile(String fileName, String archivedName, MPQFileFlags flags, MPQCompressionFlags compression,
-            MPQCompressionFlags compressionNext) throws MPQAlreadyExistsException {
+    public void addFile(final String fileName, final String archivedName, final MPQFileFlags flags,
+        final MPQCompressionFlags compression, final MPQCompressionFlags compressionNext)
+            throws MPQAlreadyExistsException {
         
         if (this.addFileCallback != null) {
             MPQArchive.setAddFileCallback(this.mpqHandle, this.addFileCallback);
         }
         
-        MPQArchive.addFileEx(
-                this.mpqHandle,
-                fileName,
-                archivedName,
-                flags.getFlags(),
-                compression.getFlags(),
-                compressionNext.getFlags());
+        MPQArchive.addFileEx(this.mpqHandle,
+            fileName,
+            archivedName,
+            flags.getFlags(),
+            compression.getFlags(),
+            compressionNext.getFlags());
     }
     
     private static native boolean addFileEx(long mpq, String fileName, String archivedName, int flags, int compression,
-            int compressionNext) throws MPQAlreadyExistsException;
+        int compressionNext) throws MPQAlreadyExistsException;
     
-    private static void addFileCallback(MPQAddFileCallback callback, int bytesWritten, int bytesTotal, boolean finalCall) {
+    private static void addFileCallback(final MPQAddFileCallback callback, final int bytesWritten,
+        final int bytesTotal, final boolean finalCall) {
         callback.addFileCallback(bytesWritten, bytesTotal, finalCall);
     }
     
@@ -458,21 +460,22 @@ public class MPQArchive implements AutoCloseable {
      * @param archivedName the name of the file to open
      * @return an {@link MPQFile} representing the specified file
      */
-    public MPQFile openFile(String archivedName) {
+    public MPQFile openFile(final String archivedName) {
         return new MPQFile(this, archivedName, MPQFileOpenScope.MPQ);
     }
     
     //
     
-    public MPQFile createFile(String name, long fileTime, int fileSize, MPQLocale locale, MPQFileFlags flags) {
+    public MPQFile createFile(final String name, final long fileTime, final int fileSize, final MPQLocale locale,
+        final MPQFileFlags flags) {
         return new MPQFile(this, name, fileTime, fileSize, locale, flags);
     }
     
-    public MPQFile createFile(String name, int fileSize, MPQFileFlags flags) {
+    public MPQFile createFile(final String name, final int fileSize, final MPQFileFlags flags) {
         return createFile(name, 0L, fileSize, MPQLocale.DEFAULT, flags);
     }
     
-    public MPQFile createFile(String name, int fileSize) {
+    public MPQFile createFile(final String name, final int fileSize) {
         return createFile(name, 0L, fileSize, MPQLocale.DEFAULT, new MPQFileFlags());
     }
     
@@ -486,7 +489,7 @@ public class MPQArchive implements AutoCloseable {
      * 
      * @param addFileCallback the new add file callback, or <code>null</code>
      */
-    public void setAddFileCallback(MPQAddFileCallback addFileCallback) {
+    public void setAddFileCallback(final MPQAddFileCallback addFileCallback) {
         this.addFileCallback = addFileCallback;
     }
     
@@ -500,7 +503,7 @@ public class MPQArchive implements AutoCloseable {
      * @param name the file to look for
      * @return <code>true</code> if the archive contains a file with that name, <code>false</code> otherwise
      */
-    public boolean hasFile(String name) {
+    public boolean hasFile(final String name) {
         return MPQArchive.hasFile(this.mpqHandle, name);
     }
     
@@ -510,7 +513,7 @@ public class MPQArchive implements AutoCloseable {
      * @param name the file to look for
      * @return <code>true</code> if the archive contains the file, <code>false</code> otherwise
      */
-    public boolean hasFile(MPQFile file) {
+    public boolean hasFile(final MPQFile file) {
         if (this.mpqHandle == file.getContainingArchive().mpqHandle) {
             return this.hasFile(file.getArchivedName());
         }
@@ -599,6 +602,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private long getHeaderOffset() {
         return getHeaderOffsetN(this.mpqHandle);
@@ -607,6 +611,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private int getHeaderSize() {
         return getHeaderSizeN(this.mpqHandle);
@@ -615,6 +620,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private MPQHeader getHeader() {
         return getHeaderN(this.mpqHandle);
@@ -623,6 +629,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private long getHetTableOffset() {
         return getHetTableOffsetN(this.mpqHandle);
@@ -631,6 +638,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private long getHetTableSize() {
         return getHetTableSizeN(this.mpqHandle);
@@ -639,6 +647,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private MPQHetHeader getHetHeader() {
         return getHetHeaderN(this.mpqHandle);
@@ -647,6 +656,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private MPQHetTable getHetTable() {
         return getHetTableN(this.mpqHandle);
@@ -655,6 +665,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private long getBetTableOffset() {
         return getBetTableOffsetN(this.mpqHandle);
@@ -663,6 +674,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private long getBetTableSize() {
         return getBetTableSizeN(this.mpqHandle);
@@ -671,6 +683,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private MPQBetHeader getBetHeader() {
         return getBetHeaderN(this.mpqHandle);
@@ -679,6 +692,7 @@ public class MPQArchive implements AutoCloseable {
     /**
      * 
      * @return
+     * @throws UnsupportedOperationException this method hasn't been implemented yet.
      */
     private MPQBetTable getBetTable() {
         return getBetTableN(this.mpqHandle);
@@ -749,10 +763,8 @@ public class MPQArchive implements AutoCloseable {
      * @param flags which signatures to verify
      * @return result of each individual check.
      */
-    public MPQVerifyFileResults verifyFile(String fileName, MPQVerifyFileFlags flags) {
-        MPQVerifyFileResults results = new MPQVerifyFileResults();
-        results.fromInteger(MPQArchive.verifyFile(this.mpqHandle, fileName, flags.getFlagsAsInt()));
-        return results;
+    public MPQVerifyFileResults verifyFile(final String fileName, final MPQVerifyFileFlags flags) {
+        return MPQVerifyFileResults.fromInteger(verifyFile(this.mpqHandle, fileName, flags.getFlagsAsInt()));
     }
     
     //
@@ -767,13 +779,13 @@ public class MPQArchive implements AutoCloseable {
      * @return the strength of the signature (if any) and whether the signature was successfully verified.
      */
     public MPQVerifyArchiveResult verify() {
-        return MPQVerifyArchiveResult.fromInteger(MPQArchive.verifyArchive(this.mpqHandle));
+        return MPQVerifyArchiveResult.fromInteger(verifyArchive(this.mpqHandle));
     }
     
     //
     
     private static native void extractFile(long mpq, String toExtract, String extracted, int searchScope)
-            throws MPQFileNotFoundException;
+        throws MPQFileNotFoundException;
     
     /**
      * Extract a single file from within the archive to the specified destination.
@@ -782,7 +794,7 @@ public class MPQArchive implements AutoCloseable {
      * @param extracted the file you want to extract the data to. Overwrites existing files.
      * @throws MPQFileNotFoundException in case either of the parameters are not valid files.
      */
-    public void extractFile(String toExtract, File extracted) throws MPQFileNotFoundException {
+    public void extractFile(final String toExtract, final File extracted) throws MPQFileNotFoundException {
         this.extractFile(toExtract, extracted.getAbsolutePath());
     }
     
@@ -793,7 +805,7 @@ public class MPQArchive implements AutoCloseable {
      * @param extracted the file you want to extract the data to. Overwrites existing files.
      * @throws MPQFileNotFoundException in case either of the parameters are not valid files.
      */
-    public void extractFile(String toExtract, String extracted) throws MPQFileNotFoundException {
+    public void extractFile(final String toExtract, final String extracted) throws MPQFileNotFoundException {
         MPQArchive.extractFile(this.mpqHandle, toExtract, extracted, MPQSearchScope.MPQ.getValue());
     }
     
@@ -805,7 +817,7 @@ public class MPQArchive implements AutoCloseable {
      * @param mask the mask to look for
      * @return an iterator over all files found
      */
-    public MPQSearch find(String mask) {
+    public MPQSearch find(final String mask) {
         return find(mask, null);
     }
     
@@ -817,14 +829,14 @@ public class MPQArchive implements AutoCloseable {
      * @param listFile the listfile to add to the archive before starting the search
      * @return an iterator over all files found
      */
-    public MPQSearch find(String mask, String listFile) {
-        MPQSearch search = new MPQSearch();
-        MPQFindData data = new MPQFindData();
+    public MPQSearch find(final String mask, final String listFile) {
+        final MPQSearch search = new MPQSearch();
+        final MPQFindData data = new MPQFindData();
         search.type = SearchType.NORMAL;
         try {
             search.searchHandle = MPQArchive.findFirstFile(this.mpqHandle, mask, data, listFile);
             search.next = data;
-        } catch (MPQFileNotFoundException fnfe) {
+        } catch (final MPQFileNotFoundException fnfe) {
             search.searchHandle = 0L;
             search.next = null;
         }
@@ -832,7 +844,7 @@ public class MPQArchive implements AutoCloseable {
     }
     
     private static native long findFirstFile(long mpq, String mask, MPQFindData fileFindData, String listFile)
-            throws MPQFileNotFoundException;
+        throws MPQFileNotFoundException;
     
     /**
      * Searches for the sepcified mask within the listfile of this MPQ archive.
@@ -840,14 +852,14 @@ public class MPQArchive implements AutoCloseable {
      * @param mask the mask to look for
      * @return an iterator over all files found
      */
-    public MPQSearch listFind(String mask) {
-        MPQSearch search = new MPQSearch();
-        MPQFindData data = new MPQFindData();
+    public MPQSearch listFind(final String mask) {
+        final MPQSearch search = new MPQSearch();
+        final MPQFindData data = new MPQFindData();
         search.type = SearchType.LISTFILE;
         try {
             search.searchHandle = MPQArchive.listFindFirstFile(this.mpqHandle, null, mask, data);
             search.next = data;
-        } catch (MPQFileNotFoundException fnfe) {
+        } catch (final MPQFileNotFoundException fnfe) {
             search.searchHandle = 0L;
             search.next = null;
         }
@@ -861,14 +873,14 @@ public class MPQArchive implements AutoCloseable {
      * @param listFile the listfile to search through
      * @return an iterator over all files found
      */
-    public static MPQSearch listFind(String mask, String listFile) {
-        MPQSearch search = new MPQSearch();
-        MPQFindData data = new MPQFindData();
+    public static MPQSearch listFind(final String mask, final String listFile) {
+        final MPQSearch search = new MPQSearch();
+        final MPQFindData data = new MPQFindData();
         search.type = SearchType.LISTFILE;
         try {
             search.searchHandle = MPQArchive.listFindFirstFile(0L, listFile, mask, data);
             search.next = data;
-        } catch (MPQFileNotFoundException fnfe) {
+        } catch (final MPQFileNotFoundException fnfe) {
             search.searchHandle = 0L;
             search.next = null;
         }
@@ -876,7 +888,7 @@ public class MPQArchive implements AutoCloseable {
     }
     
     private static native long listFindFirstFile(long mpq, String listFile, String mask, MPQFindData fileFindData)
-            throws MPQFileNotFoundException;
+        throws MPQFileNotFoundException;
     
     //
     
@@ -888,7 +900,7 @@ public class MPQArchive implements AutoCloseable {
     }
     
     static {
-        String arch = System.getProperty("sun.arch.data.model");
+        final String arch = System.getProperty("sun.arch.data.model");
         if (arch.equals("64")) { // might cause problems with JVMs other than the Sun one.
             // running 64 bit JVM
             System.loadLibrary("JStormLib64");

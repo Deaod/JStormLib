@@ -9,7 +9,7 @@ set JAVAH=javah
 set OLD_DIR=%CD%
 
 :: Where to load the java classes from
-set CLASS_DIR=%CD%\Java\JStormLib\bin\
+set CLASS_DIR=%CD%\Java\JStormLib\target\classes\
 
 :: where to put resulting .h files
 set OUTPUT_DIR=%CD%\Native\JStormLib
@@ -28,9 +28,9 @@ set OUT_MPQCOMP=%OUTPUT_DIR%\MPQCompression.h
 :: switch to the appropriate directory
 cd "%CLASS_DIR%"
 
-%JAVAH% -verbose -force -o %OUT_MPQARCHIVE% %MPQARCHIVE%
-%JAVAH% -verbose -force -o %OUT_MPQFILE% %MPQFILE%
-%JAVAH% -verbose -force -o %OUT_MPQSEARCH% %MPQSEARCH%
-%JAVAH% -verbose -force -o %OUT_MPQCOMP% %MPQCOMP%
+"%JAVAH%" -verbose -force -o "%OUT_MPQARCHIVE%" "%MPQARCHIVE%"
+"%JAVAH%" -verbose -force -o "%OUT_MPQFILE%" "%MPQFILE%"
+"%JAVAH%" -verbose -force -o "%OUT_MPQSEARCH%" "%MPQSEARCH%"
+"%JAVAH%" -verbose -force -o "%OUT_MPQCOMP%" "%MPQCOMP%"
 
 pause

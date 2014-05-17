@@ -131,40 +131,292 @@ JNIH_EXCEPTION_TRAP_BEGIN() {
  * Method:    closeFile
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQFile_closeFile
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_closeFile
   (JNIEnv *env, jclass /*cls*/, jlong file)
 JNIH_EXCEPTION_TRAP_BEGIN() {
     if (!SFileCloseFile(reinterpret_cast<HANDLE>(file))) {
         ErrorCodeToException(env, GetLastError());
     }
-} JNIH_EXCEPTION_TRAP_END2
+} JNIH_EXCEPTION_TRAP_END
+
+///*
+// * Class:     de_deaod_jstormlib_MPQFile
+// * Method:    getFileInfo
+// * Signature: (JI)[B
+// */
+//JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQFile_getFileInfo
+//  (JNIEnv *env, jclass /*cls*/, jlong file, jint infoType)
+//JNIH_EXCEPTION_TRAP_BEGIN() {
+//    jint dataSize = 0;
+//    jboolean result;
+//
+//    result = SFileGetFileInfo(reinterpret_cast<HANDLE>(file), infoType, NULL, 0, reinterpret_cast<LPDWORD>(&dataSize));
+//
+//    if ((!result) && (GetLastError() != ERROR_INSUFFICIENT_BUFFER)) {
+//        ErrorCodeToException(env, GetLastError());
+//    } else {
+//        JByteArray data(env, dataSize);
+//        
+//        result = SFileGetFileInfo(reinterpret_cast<HANDLE>(file), infoType, data.getData(), dataSize, reinterpret_cast<LPDWORD>(&dataSize));
+//
+//        if (!result) {
+//            ErrorCodeToException(env, GetLastError());
+//        }
+//
+//        return data.getArray();
+//    }
+//} JNIH_EXCEPTION_TRAP_END
 
 /*
  * Class:     de_deaod_jstormlib_MPQFile
- * Method:    getFileInfo
- * Signature: (JI)[B
+ * Method:    getHashIndexN
+ * Signature: (J)I
  */
-JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQFile_getFileInfo
-  (JNIEnv *env, jclass /*cls*/, jlong file, jint infoType)
-JNIH_EXCEPTION_TRAP_BEGIN() {
-    jint dataSize = 0;
-    jboolean result;
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getHashIndexN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint hashIndex = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoHashIndex,
+        &hashIndex,
+        4,
+        NULL
+    );
 
-    result = SFileGetFileInfo(reinterpret_cast<HANDLE>(file), infoType, NULL, 0, reinterpret_cast<LPDWORD>(&dataSize));
+    return hashIndex;
+} JNIH_EXCEPTION_TRAP_END
 
-    if ((!result) && (GetLastError() != ERROR_INSUFFICIENT_BUFFER)) {
-        ErrorCodeToException(env, GetLastError());
-    } else {
-        JByteArray data(env, dataSize);
-        
-        result = SFileGetFileInfo(reinterpret_cast<HANDLE>(file), infoType, data.getData(), dataSize, reinterpret_cast<LPDWORD>(&dataSize));
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getCodename1N
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getCodename1N
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint codename1 = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoNameHash1,
+        &codename1,
+        4,
+        NULL
+    );
 
-        if (!result) {
-            ErrorCodeToException(env, GetLastError());
-        }
+    return codename1;
+} JNIH_EXCEPTION_TRAP_END
 
-        return data.getArray();
-    }
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getCodename2N
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getCodename2N
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint codename2 = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoNameHash2,
+        &codename2,
+        4,
+        NULL
+    );
+
+    return codename2;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getLocaleN
+ * Signature: (J)Lde/deaod/jstormlib/MPQLocale;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQFile_getLocaleN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint locale = 0;
+    jobject result;
+    jclass mpqLocale = jenv.FindClass(C_MPQLocale);
+    jmethodID mpqLocaleFromInteger = jenv.GetStaticMethodID(mpqLocale, "fromInteger", JNI_METHOD_1(F_MPQLocale, JNI_int));
+
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoLocale,
+        &locale,
+        4,
+        NULL
+    );
+
+    result = jenv.CallStaticObjectMethod(mpqLocale, mpqLocaleFromInteger, locale);
+
+    return result;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getBlockIndexN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getBlockIndexN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint blockIndex = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoFileIndex,
+        &blockIndex,
+        4,
+        NULL
+    );
+
+    return blockIndex;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getFileSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getFileSizeN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint fileSize = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoFileSize,
+        &fileSize,
+        4,
+        NULL
+    );
+
+    return fileSize;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getCompressedSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getCompressedSizeN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint compressedSize = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoCompressedSize,
+        &compressedSize,
+        4,
+        NULL
+    );
+
+    return compressedSize;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getFlagsN
+ * Signature: (J)Lde/deaod/jstormlib/MPQFileFlags;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQFile_getFlagsN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint flags = 0;
+    jobject result;
+    jclass mpqFileFlags = jenv.FindClass(C_MPQFileFlags);
+    jmethodID mpqFileFlagsFromInteger = jenv.GetStaticMethodID(mpqFileFlags, "fromInteger", JNI_METHOD_1(F_MPQFileFlags, JNI_int));
+
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoFlags,
+        &flags,
+        4,
+        NULL
+    );
+
+    result = jenv.CallStaticObjectMethod(mpqFileFlags, mpqFileFlagsFromInteger, flags);
+
+    return result;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getPositionN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getPositionN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint position = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoByteOffset,
+        &position,
+        4,
+        NULL
+    );
+
+    return position;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getKeyN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getKeyN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint key = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoEncryptionKey,
+        &key,
+        4,
+        NULL
+    );
+
+    return key;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getKeyUnfixedN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getKeyUnfixedN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint keyUnfixed = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoEncryptionKeyRaw,
+        &keyUnfixed,
+        4,
+        NULL
+    );
+
+    return keyUnfixed;
+} JNIH_EXCEPTION_TRAP_END
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getFileTimeN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQFile_getFileTimeN
+  (JNIEnv *env, jclass /*cls*/, jlong file)
+JNIH_EXCEPTION_TRAP_BEGIN_EX(env, jenv) {
+    jint fileTime = 0;
+    SFileGetFileInfo(
+        reinterpret_cast<HANDLE>(file),
+        SFileInfoClass::SFileInfoFileTime,
+        &fileTime,
+        4,
+        NULL
+    );
+
+    return fileTime;
 } JNIH_EXCEPTION_TRAP_END
 
 /*

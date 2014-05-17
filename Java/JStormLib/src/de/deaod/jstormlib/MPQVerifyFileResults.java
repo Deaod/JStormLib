@@ -15,25 +15,31 @@ public class MPQVerifyFileResults {
         HAS_RAW_MD5(0x0100),
         RAW_MD5_ERROR(0x0200);
         
-        private int value;
+        private final int value;
         
         int getValue() {
             return this.value;
         }
         
-        private Result(int value) {
+        private Result(final int value) {
             this.value = value;
         }
     }
     
+    private MPQVerifyFileResults() {
+    }
+
     private EnumSet<Result> results = EnumSet.noneOf(Result.class);
     
-    void fromInteger(int value) {
-        this.results = EnumSet.noneOf(Result.class);
-        for (Result r : Result.values()) {
-            if ((value & r.getValue()) != 0)
-                this.results.add(r);
+    static MPQVerifyFileResults fromInteger(final int value) {
+        final MPQVerifyFileResults result = new MPQVerifyFileResults();
+        result.results = EnumSet.noneOf(Result.class);
+        for (final Result r : Result.values()) {
+            if ((value & r.getValue()) != 0) {
+                result.results.add(r);
+            }
         }
+        return result;
     }
     
     public EnumSet<Result> getResults() {

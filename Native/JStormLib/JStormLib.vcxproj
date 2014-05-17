@@ -128,80 +128,80 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUS|Win32'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUD|Win32'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUS|x64'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUD|x64'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUS|Win32'">
-    <LibraryPath>C:\Program Files %28x86%29\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUD|Win32'">
-    <LibraryPath>C:\Program Files %28x86%29\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUS|x64'">
-    <LibraryPath>C:\Program Files\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUD|x64'">
-    <LibraryPath>C:\Program Files\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUS|Win32'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUD|Win32'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUS|x64'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUD|x64'">
-    <IncludePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\StormLib\src;$(SolutionDir)JNIHelper;$(SolutionDir)JNIHelper\jni;$(SolutionDir)JNIHelper\jni\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUS|Win32'">
-    <LibraryPath>C:\Program Files %28x86%29\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUD|Win32'">
-    <LibraryPath>C:\Program Files %28x86%29\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUS|x64'">
-    <LibraryPath>C:\Program Files\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUD|x64'">
-    <LibraryPath>C:\Program Files\Java\jdk1.7.0_17\lib;C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\bin\StormLib\$(Platform)\$(Configuration);F:\VS2010\Projects\JStormLib\bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <SourcePath>C:\Users\Admin\Documents\Visual Studio 2010\Projects\StormLib\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)lib\$(Platform);$(SolutionDir)..\StormLib\bin\StormLib\$(Platform)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\StormLib\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>

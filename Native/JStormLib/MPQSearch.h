@@ -10,33 +10,33 @@ extern "C" {
 /*
  * Class:     de_deaod_jstormlib_MPQSearch
  * Method:    findNextFile
- * Signature: (JLde/deaod/jstormlib/data/MPQFindData;)V
+ * Signature: (JLde/deaod/jstormlib/data/MPQFindData;)Z
  */
-JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQSearch_findNextFile
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_findNextFile
   (JNIEnv *, jclass, jlong, jobject);
 
 /*
  * Class:     de_deaod_jstormlib_MPQSearch
  * Method:    findClose
- * Signature: (J)V
+ * Signature: (J)Z
  */
-JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQSearch_findClose
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_findClose
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     de_deaod_jstormlib_MPQSearch
  * Method:    listFindNextFile
- * Signature: (JLde/deaod/jstormlib/data/MPQFindData;)V
+ * Signature: (JLde/deaod/jstormlib/data/MPQFindData;)Z
  */
-JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQSearch_listFindNextFile
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_listFindNextFile
   (JNIEnv *, jclass, jlong, jobject);
 
 /*
  * Class:     de_deaod_jstormlib_MPQSearch
  * Method:    listFindClose
- * Signature: (J)V
+ * Signature: (J)Z
  */
-JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQSearch_listFindClose
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQSearch_listFindClose
   (JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus

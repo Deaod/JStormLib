@@ -2,13 +2,13 @@
 #include <jni.h>
 /* Header for class de_deaod_jstormlib_MPQCompression */
 
-#ifndef _Included_de_deaod_jstormlib_MPQComp
-#define _Included_de_deaod_jstormlib_MPQComp
+#ifndef _Included_de_deaod_jstormlib_MPQCompression
+#define _Included_de_deaod_jstormlib_MPQCompression
 #ifdef __cplusplus
 extern "C" {
 #endif
 /*
- * Class:     de_deaod_jstormlib_MPQComp
+ * Class:     de_deaod_jstormlib_MPQCompression
  * Method:    implode
  * Signature: ([BII)[B
  */
@@ -16,7 +16,7 @@ JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQCompression_implode
   (JNIEnv *, jclass, jbyteArray, jint, jint);
 
 /*
- * Class:     de_deaod_jstormlib_MPQComp
+ * Class:     de_deaod_jstormlib_MPQCompression
  * Method:    explode
  * Signature: ([BIII)[B
  */
@@ -24,7 +24,7 @@ JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQCompression_explode
   (JNIEnv *, jclass, jbyteArray, jint, jint, jint);
 
 /*
- * Class:     de_deaod_jstormlib_MPQComp
+ * Class:     de_deaod_jstormlib_MPQCompression
  * Method:    compress
  * Signature: ([BIIII)[B
  */
@@ -32,7 +32,7 @@ JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQCompression_compress
   (JNIEnv *, jclass, jbyteArray, jint, jint, jint, jint);
 
 /*
- * Class:     de_deaod_jstormlib_MPQComp
+ * Class:     de_deaod_jstormlib_MPQCompression
  * Method:    decompress
  * Signature: ([BIII)[B
  */

@@ -381,12 +381,12 @@ public enum MPQLocale {
     ha_Latn(0x7c68, "ha-Latn", new Locale("ha", "", "Latn")),
     ku_Arab(0x7c92, "ku-Arab", new Locale("ku", "", "Arab"));
     
-    private int    value;
-    private String identifier;
-    private Locale locale;
+    private final int    localeId;
+    private final String identifier;
+    private final Locale locale;
     
     public int getValue() {
-        return this.value;
+        return this.localeId;
     }
     
     public String getRFCIdentifier() {
@@ -397,27 +397,38 @@ public enum MPQLocale {
         return this.locale;
     }
     
-    private MPQLocale(int value, String identifier, Locale locale) {
-        this.value = value;
+    private MPQLocale(final int localeId, final String identifier, final Locale locale) {
+        this.localeId = localeId;
         this.identifier = identifier;
         this.locale = locale;
     }
     
-    public static MPQLocale fromInteger(int value) {
-        MPQLocale[] locales = MPQLocale.values();
-        int pos = 0;
-        int len = locales.length;
-        do {
-            int tmp = pos + len - 1;
-            if (locales[tmp].value == value) {
-                return locales[tmp];
-            }
-            if (locales[tmp].value < value) {
-                pos += len;
+    /**
+     * Returns an MPQLocale instance describing the locale with the given locale ID.
+     * 
+     * @param localeId the locale ID to look for.
+     * @return A valid MPQLocale instance describing the desired locale, or <code>null</code> if no MPQLocale instance
+     *         with the given locale ID could be found.
+     */
+    public static MPQLocale fromInteger(final int localeId) {
+        final MPQLocale[] locales = MPQLocale.values();
+        
+        // why reimplement binary search?
+        // Because every other solution seems inadequate.
+        // Arrays.binarySearch(T[] a, T key, ...) doesnt fit the data i have and want
+        
+        int max = locales.length - 1;
+        int min = 0;
+        while (max >= min) {
+            final int mid = min + ((max - min) >> 1);
+            if (locales[mid].localeId == localeId) {
+                return locales[mid];
+            } else if (locales[mid].localeId < localeId) {
+                min = mid + 1;
             } else {
-                len /= 2;
+                max = mid - 1;
             }
-        } while (len > 0);
+        }
         
         return null;
     }

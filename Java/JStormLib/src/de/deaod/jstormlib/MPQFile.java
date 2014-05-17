@@ -1,9 +1,6 @@
 package de.deaod.jstormlib;
 
-import java.io.IOException;
 import java.nio.ByteOrder;
-
-import de.deaod.jstormlib.utility.ArrayDataReader;
 
 public class MPQFile implements AutoCloseable {
     
@@ -22,7 +19,7 @@ public class MPQFile implements AutoCloseable {
      * @param name the name of the file to open
      * @param flags the scope to search through
      */
-    MPQFile(MPQArchive mpq, String name, MPQFileOpenScope flags) {
+    MPQFile(final MPQArchive mpq, final String name, final MPQFileOpenScope flags) {
         open(mpq, name, flags);
     }
     
@@ -36,7 +33,8 @@ public class MPQFile implements AutoCloseable {
      * @param locale the locale of the file
      * @param flags the flags to use when adding the file
      */
-    MPQFile(MPQArchive mpq, String archivedName, long fileTime, int fileSize, MPQLocale locale, MPQFileFlags flags) {
+    MPQFile(final MPQArchive mpq, final String archivedName, final long fileTime, final int fileSize,
+        final MPQLocale locale, final MPQFileFlags flags) {
         create(mpq, archivedName, fileTime, fileSize, locale, flags);
     }
     
@@ -68,7 +66,7 @@ public class MPQFile implements AutoCloseable {
      * 
      * @param newName the new name for the file
      */
-    public void setArchivedName(String newName) {
+    public void setArchivedName(final String newName) {
         MPQFile.renameFile(this.mpqArchive.getMpqHandle(), this.archivedName, newName);
         this.archivedName = newName;
     }
@@ -117,7 +115,7 @@ public class MPQFile implements AutoCloseable {
      * @param moveAnchor the anchor for the new position
      * @return the new position
      */
-    public long setFilePointer(long newPosition, MPQFileMoveAnchor moveAnchor) {
+    public long setFilePointer(final long newPosition, final MPQFileMoveAnchor moveAnchor) {
         return MPQFile.setFilePointer(this.fileHandle, newPosition, moveAnchor.getValue());
     }
     
@@ -133,7 +131,7 @@ public class MPQFile implements AutoCloseable {
      * @param length the length of the data you want to read
      * @return the amount of bytes that have been read.
      */
-    public int readFile(byte[] buffer, int offset, int length) {
+    public int readFile(final byte[] buffer, final int offset, final int length) {
         return MPQFile.readFile(this.fileHandle, buffer, offset, length);
     }
     
@@ -143,7 +141,7 @@ public class MPQFile implements AutoCloseable {
      * @param buffer the buffer to read data into
      * @return the amount of bytes that have been read.
      */
-    public int readFile(byte[] buffer) {
+    public int readFile(final byte[] buffer) {
         return this.readFile(buffer, 0, buffer.length);
     }
     
@@ -160,7 +158,7 @@ public class MPQFile implements AutoCloseable {
      * @param compression compression to use for the data written, ignored if the file does not specify the COMPRESSED
      *            flag.
      */
-    public void write(byte[] data, int offset, int length, MPQCompressionFlags compression) {
+    public void write(final byte[] data, final int offset, final int length, final MPQCompressionFlags compression) {
         MPQFile.writeFile(this.fileHandle, data, offset, length, compression.getFlags());
     }
     
@@ -171,7 +169,7 @@ public class MPQFile implements AutoCloseable {
      * @param compression compression to use for the data written, ignored if the file does not specify the COMPRESSED
      *            flag.
      */
-    public void write(byte[] data, MPQCompressionFlags compression) {
+    public void write(final byte[] data, final MPQCompressionFlags compression) {
         this.write(data, 0, data.length, compression);
     }
     
@@ -179,6 +177,7 @@ public class MPQFile implements AutoCloseable {
     
     private static native boolean closeFile(long file);
     
+    @Override
     public void close() {
         if (this.fileHandle != 0) {
             MPQFile.closeFile(this.fileHandle);
@@ -190,130 +189,112 @@ public class MPQFile implements AutoCloseable {
     
     //
     
-    private static native byte[] getFileInfo(long file, int infoType);
+    private static native int getHashIndexN(long file);
+    
+    private static native int getCodename1N(long file);
+    
+    private static native int getCodename2N(long file);
+    
+    private static native MPQLocale getLocaleN(long file);
+    
+    private static native int getBlockIndexN(long file);
+    
+    private static native int getFileSizeN(long file);
+    
+    private static native int getCompressedSizeN(long file);
+    
+    private static native MPQFileFlags getFlagsN(long file);
+    
+    private static native int getPositionN(long file);
+    
+    private static native int getKeyN(long file);
+    
+    private static native int getKeyUnfixedN(long file);
+    
+    private static native long getFileTimeN(long file);
     
     /**
-     * 
-     * @return
+     * @return the hash-table index of this file within the MPQ.
      */
     public int getHashIndex() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.HASH_INDEX.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+        return getHashIndexN(this.fileHandle);
     }
     
-    public int getCodename1() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.CODENAME1.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+    /**
+     * @return the first hash of the name of this file.
+     */
+    public int getNameHash1() {
+        return getCodename1N(this.fileHandle);
     }
     
-    public int getCodename2() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.CODENAME2.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+    /**
+     * @return the second hash of the name of this file.
+     */
+    public int getNameHash2() {
+        return getCodename2N(this.fileHandle);
     }
     
+    /**
+     * @return the locale of this file.
+     */
     public MPQLocale getLocale() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.LOCALEID.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return MPQLocale.fromInteger(dataReader.readInt());
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return MPQLocale.DEFAULT;
-        }
+        return getLocaleN(this.fileHandle);
     }
     
+    /**
+     * @return the block-table index of this file within the MPQ.
+     */
     public int getBlockIndex() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.BLOCKINDEX.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+        return getBlockIndexN(this.fileHandle);
     }
     
+    /**
+     * @return the uncompressed size of this file.
+     */
     public int getFileSize() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.FILE_SIZE.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+        return getFileSizeN(this.fileHandle);
     }
     
+    /**
+     * @return the compressed size of this file.
+     */
     public int getCompressedSize() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.COMPRESSED_SIZE.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+        return getCompressedSizeN(this.fileHandle);
     }
     
+    /**
+     * @return the flags associated with this file.
+     */
     public MPQFileFlags getFlags() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.FLAGS.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return MPQFileFlags.fromInteger(dataReader.readInt());
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return MPQFileFlags.fromInteger(0);
-        }
+        return getFlagsN(this.fileHandle);
     }
     
-    public int getPosition() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.POSITION.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+    /**
+     * @return the offset of this file relative to the beginning of the MPQ archive.
+     */
+    public int getByteOffset() {
+        return getPositionN(this.fileHandle);
     }
     
-    public int getKey() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.KEY.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+    /**
+     * @return the key used for encrypting this file in the MPQ.
+     */
+    public int getEncryptionKey() {
+        return getKeyN(this.fileHandle);
     }
     
-    public int getKeyUnfixed() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.KEY_UNFIXED.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readInt();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+    /**
+     * @return the raw key used for encrypting this file in the MPQ.
+     */
+    public int getEncryptionKeyRaw() {
+        return getKeyUnfixedN(this.fileHandle);
     }
     
+    /**
+     * @return the time associated with this file within the MPQ.
+     */
     public long getFileTime() {
-        byte[] data = MPQFile.getFileInfo(this.fileHandle, MPQFileInfoFlags.FILETIME.getValue());
-        try (ArrayDataReader dataReader = new ArrayDataReader(data, MPQFile.DATA_BYTE_ORDER)) {
-            return dataReader.readLong();
-        } catch (IOException e) {
-            // should never come here, but what the hell ...
-            return 0;
-        }
+        return getFileTimeN(this.fileHandle);
     }
     
     //
@@ -325,20 +306,21 @@ public class MPQFile implements AutoCloseable {
      * 
      * @param locale the new locale
      */
-    public void setLocale(MPQLocale locale) {
+    public void setLocale(final MPQLocale locale) {
         MPQFile.setFileLocale(this.fileHandle, locale.getValue());
     }
     
     //
     
     private static native long createFile(long mpq, String archivedName, long fileTime, int fileSize, int locale,
-            int flags);
+        int flags);
     
-    void create(MPQArchive mpq, String archivedName, long fileTime, int fileSize, MPQLocale locale, MPQFileFlags flags) {
+    void create(final MPQArchive mpq, final String archivedName, final long fileTime, final int fileSize,
+        final MPQLocale locale, final MPQFileFlags flags) {
         close();
         this.mpqArchive = mpq;
-        this.fileHandle = MPQFile.createFile(
-                mpq.getMpqHandle(),
+        this.fileHandle = 
+            MPQFile.createFile(mpq.getMpqHandle(),
                 archivedName,
                 fileTime,
                 fileSize,
@@ -351,18 +333,18 @@ public class MPQFile implements AutoCloseable {
     
     private static native long openFile(long mpq, String name, int scope);
     
-    void open(MPQArchive mpq, String name, MPQFileOpenScope flags) {
+    void open(final MPQArchive mpq, final String name, final MPQFileOpenScope flags) {
         close();
         this.mpqArchive = mpq;
         this.fileHandle = MPQFile.openFile(mpq.getMpqHandle(), name, flags.getValue());
         this.archivedName = getArchivedName();
     }
     
-    void open(MPQArchive mpq, String name) {
+    void open(final MPQArchive mpq, final String name) {
         this.open(mpq, name, MPQFileOpenScope.MPQ);
     }
     
-    void open(String name) {
+    void open(final String name) {
         this.open(this.mpqArchive, name, MPQFileOpenScope.MPQ);
     }
     

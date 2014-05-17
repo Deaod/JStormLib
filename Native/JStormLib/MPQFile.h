@@ -66,18 +66,106 @@ JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQFile_writeFile
 /*
  * Class:     de_deaod_jstormlib_MPQFile
  * Method:    closeFile
- * Signature: (J)V
+ * Signature: (J)Z
  */
-JNIEXPORT void JNICALL Java_de_deaod_jstormlib_MPQFile_closeFile
+JNIEXPORT jboolean JNICALL Java_de_deaod_jstormlib_MPQFile_closeFile
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     de_deaod_jstormlib_MPQFile
- * Method:    getFileInfo
- * Signature: (JI)[B
+ * Method:    getHashIndexN
+ * Signature: (J)I
  */
-JNIEXPORT jbyteArray JNICALL Java_de_deaod_jstormlib_MPQFile_getFileInfo
-  (JNIEnv *, jclass, jlong, jint);
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getHashIndexN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getCodename1N
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getCodename1N
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getCodename2N
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getCodename2N
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getLocaleN
+ * Signature: (J)Lde/deaod/jstormlib/MPQLocale;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQFile_getLocaleN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getBlockIndexN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getBlockIndexN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getFileSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getFileSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getCompressedSizeN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getCompressedSizeN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getFlagsN
+ * Signature: (J)Lde/deaod/jstormlib/MPQFileFlags;
+ */
+JNIEXPORT jobject JNICALL Java_de_deaod_jstormlib_MPQFile_getFlagsN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getPositionN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getPositionN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getKeyN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getKeyN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getKeyUnfixedN
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_de_deaod_jstormlib_MPQFile_getKeyUnfixedN
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     de_deaod_jstormlib_MPQFile
+ * Method:    getFileTimeN
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_de_deaod_jstormlib_MPQFile_getFileTimeN
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     de_deaod_jstormlib_MPQFile

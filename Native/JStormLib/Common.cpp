@@ -9,19 +9,19 @@ void FillFindData(JNIEnv *env, SFILE_FIND_DATA* source, jobject target)
     JniEnv jenv(env);
 
     jstring fileName = jenv.NewStringUTF(source->cFileName);
-    jenv.SetField(target, "fileName", JNI_FIELD_STRING, &fileName);
+    jenv.SetField(target, "fileName", F_String, &fileName);
 
     jstring plainName = jenv.NewStringUTF(source->szPlainName);
-    jenv.SetField(target, "plainName", JNI_FIELD_STRING, &plainName);
+    jenv.SetField(target, "plainName", F_String, &plainName);
 
-    jenv.SetField(target, "hashIndex", JNI_INT, &(source->dwHashIndex));
-    jenv.SetField(target, "blockIndex", JNI_INT, &(source->dwBlockIndex));
-    jenv.SetField(target, "fileSize", JNI_INT, &(source->dwFileSize));
-    jenv.SetField(target, "fileFlags", JNI_INT, &(source->dwFileFlags));
-    jenv.SetField(target, "compSize", JNI_INT, &(source->dwCompSize));
-    jenv.SetField(target, "fileTimeLo", JNI_INT, &(source->dwFileTimeLo));
-    jenv.SetField(target, "fileTimeHi", JNI_INT, &(source->dwFileTimeHi));
-    jenv.SetField(target, "locale", JNI_INT, &(source->lcLocale));
+    jenv.SetField(target, "hashIndex", JNI_int, &(source->dwHashIndex));
+    jenv.SetField(target, "blockIndex", JNI_int, &(source->dwBlockIndex));
+    jenv.SetField(target, "fileSize", JNI_int, &(source->dwFileSize));
+    jenv.SetField(target, "fileFlags", JNI_int, &(source->dwFileFlags));
+    jenv.SetField(target, "compSize", JNI_int, &(source->dwCompSize));
+    jenv.SetField(target, "fileTimeLo", JNI_int, &(source->dwFileTimeLo));
+    jenv.SetField(target, "fileTimeHi", JNI_int, &(source->dwFileTimeHi));
+    jenv.SetField(target, "locale", JNI_int, &(source->lcLocale));
 }
 
 jlong CPointerToJLong(void* pointer) {
